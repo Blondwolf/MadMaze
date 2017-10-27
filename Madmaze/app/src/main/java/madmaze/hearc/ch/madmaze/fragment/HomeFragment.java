@@ -7,8 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import madmaze.hearc.ch.madmaze.R;
+import madmaze.hearc.ch.madmaze.dialogs.DeviceConnectionDialog;
 
 public class HomeFragment extends Fragment {
+
+    public static final String TAG = "Home";
+    private DeviceConnectionDialog deviceConnectionDialog;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -23,7 +27,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        deviceConnectionDialog = new DeviceConnectionDialog();
+        deviceConnectionDialog.show(getFragmentManager(), this.TAG);
     }
 
     @Override
