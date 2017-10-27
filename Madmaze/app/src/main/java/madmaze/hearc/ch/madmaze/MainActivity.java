@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadFragment(new HomeFragment(), GameFragment.TAG);
+        loadFragment(HomeFragment.newInstance(), GameFragment.TAG);
     }
 
     public void loadFragment(Fragment fragment, String tag){
