@@ -5,7 +5,9 @@
     <ListView
         android:id="@+id/wifi_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:listSelector="#666666"/>
 <!--
     <TextView
         android:id="@+id/empty_message_id"
