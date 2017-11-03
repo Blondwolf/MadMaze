@@ -1,10 +1,13 @@
 package madmaze.hearc.ch.madmaze.fragment;
 
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 import madmaze.hearc.ch.madmaze.R;
 import madmaze.hearc.ch.madmaze.dialogs.DeviceConnectionDialog;
