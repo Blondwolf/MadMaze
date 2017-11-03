@@ -22,4 +22,14 @@ public class Ball extends Element {
     public void setRadius(float radius) {
         this.radius = radius;
     }
+
+    @Override
+    public void update() {
+        
+    }
+
+    @Override
+    public void draw(float delta) {
+
+    }
 }

@@ -18,11 +18,12 @@ public class GameController {
     }
 
     public void update() {
-
+        world.update();
     }
 
     public void draw(Canvas canvas) {
-
+        //TODO recup delta
+        //world.draw();
     }
 
     public void onTouchEvent(MotionEvent event) {
