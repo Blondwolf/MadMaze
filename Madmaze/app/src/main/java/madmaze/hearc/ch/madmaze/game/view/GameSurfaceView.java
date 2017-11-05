@@ -2,142 +2,106 @@ package madmaze.hearc.ch.madmaze.game.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 
-/**
- * Created by KVull on 27.10.2017.
- */
+public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
-public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback
-{
-    private SurfaceHolder holder;
-    private MyThread thread;
-    private GameController gameController;
-    private Paint paint;
+    SurfaceHolder surfaceHolder;    // Le holder
+    DrawingThread thread;           // Le thread dans lequel le dessin se fera
 
-    private int width;
-    private int height;
+    Paint paint;
 
-    public GameSurfaceView(Context context, GameController gameController, int width, int height){
+    GameController controller;
+
+    //For xml inflation
+    public GameSurfaceView(Context context) {
         super(context);
-        holder = getHolder();
+        surfaceHolder = getHolder();
+        surfaceHolder.addCallback(this);
 
-        holder.addCallback(this);
+        thread = new DrawingThread();
 
-        this.gameController = gameController;
-        this.width = width;
-        this.height = height;
         paint = new Paint();
-        //initialize paint object parameters
+        paint.setColor(Color.RED);
+    }
 
-        setWillNotDraw(false); //this line is very important!
+    //Programmaticaly
+    public GameSurfaceView(Context context, GameController controller) {
+        this(context);
+
+        this.controller = controller;
+    }
+
+    //Update from surfaceview
+    @Override
+    protected void onDraw(Canvas canvas) {
+        controller.update(0);       //Calculate delta
+        postInvalidate();
+        controller.draw(canvas, paint);
+    }
+
+    // Que faire quand le surface change ? (L'utilisateur tourne son téléphone par exemple)
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        controller.updateSurfaceInfos(width, height);
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder)
-    {
+    public void surfaceCreated(SurfaceHolder holder) {
+        //setWillNotDraw(false);      //Allow to redraw, called postinvalidate instead. Maybe approach is wrong
+        thread.keepDrawing = true;
+        thread.start();
     }
 
     @Override
-    // This is always called at least once, after surfaceCreated
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
-    {
-        if (thread == null)
-        {
-            thread = new MyThread(holder, gameController);
-            thread.setRunning(true);
-            thread.start();
-        }
-    }
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        thread.keepDrawing = false;
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder)
-    {
-        boolean retry = true;
-        thread.setRunning(false);
-        while (retry)
-        {
-            try
-            {
+        boolean joined = false;
+        while (!joined) {
+            try {
                 thread.join();
-                retry = false;
-            }
-            catch (InterruptedException e)
-            {
-                Log.d(getClass().getSimpleName(), "Interrupted Exception", e);
-            }
+                joined = true;
+            } catch (InterruptedException e) {}
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        System.out.println(event.getX() + " " + event.getY());
-        gameController.onTouchEvent(event); //handle user interaction
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas)
-    {
-        super.onDraw(canvas);
-        canvas.drawText("Hello world!", width/20, 20, paint);
-        gameController.draw(canvas);
-    }
-
-    public Thread getThread()
-    {
-        return thread;
-    }
-
-    public class MyThread extends Thread
-    {
-        private SurfaceHolder holder;
-        private boolean running = false;
-
-        private GameController gameController;
-
-        public MyThread(SurfaceHolder holder, GameController gameController)
-        {
-            this.holder = holder;
-            this.gameController = gameController;
-        }
+    private class DrawingThread extends Thread {
+        // Utilisé pour arrêter le dessin quand il le faut
+        boolean keepDrawing = true;
 
         @Override
-        public void run()
-        {
-            Canvas canvas = null;
-            while (running)
-            {
-                gameController.update(); //update the time between last update() call and now
-                try
-                {
-                    canvas = holder.lockCanvas(null);
-                    synchronized (holder)
-                    {
-                        postInvalidate();
+        public void run() {
+
+            while (keepDrawing) {
+                Canvas canvas = null;
+
+                try {
+                    // On récupère le canvas pour dessiner dessus
+                    canvas = surfaceHolder.lockCanvas();
+                    // On s'assure qu'aucun autre thread n'accède au holder
+                    synchronized (surfaceHolder) {
+                        // Et on dessine
+                        onDraw(canvas);
                     }
                 }
-                finally
-                {
+                finally {
+                    // Notre dessin fini, on relâche le Canvas pour que le dessin s'affiche
                     if (canvas != null)
-                    {
-                        holder.unlockCanvasAndPost(canvas);
-                    }
+                        surfaceHolder.unlockCanvasAndPost(canvas);
                 }
+
+                // Pour dessiner à 50 fps
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {}
             }
-
-        }
-
-        public void setRunning(boolean b)
-        {
-            running = b;
         }
     }
 }

@@ -1,5 +1,7 @@
 package madmaze.hearc.ch.madmaze.game.model;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PointF;
 
 /**
@@ -7,11 +9,14 @@ import android.graphics.PointF;
  */
 
 public abstract class Element {
+    //Can do child classes to separate abstract movable element or unmovable
 
+    boolean movable;
     PointF position;
 
-    public Element(PointF position){
+    public Element(PointF position, boolean movable){
         this.position = position;
+        this.movable = movable;
     }
 
     public PointF getPosition() {
@@ -22,6 +27,8 @@ public abstract class Element {
         this.position = position;
     }
 
-    public abstract void update();
-    public abstract void draw(float delta);
+    public boolean isMovable(){ return movable; }
+
+    public abstract void update(float delta);
+    public abstract void draw(Canvas canvas, Paint paint);
 }

@@ -1,5 +1,8 @@
 package madmaze.hearc.ch.madmaze.game.model;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,59 +15,58 @@ import java.util.List;
 
 public class World {
 
+    //Menu
     String name;
+
+    //Logic
+    Ball ballPlayer;
     List<Element> elements;
 
-    //Default for testing
+    //Graphics
+    int backgroundColor;
+
+    //Empty world
     public World(){
-        this.name = "Level test";
-
-        elements = new ArrayList<Element>();
+        this("Level test", new ArrayList<Element>());
     }
 
-    public World(String path){
-        //TODO: Load xml level data from path or smth else
-        //this.name = name;
-        //this.elements = elements;
+    public World(String name, List<Element> elements){
+        this.name = name;
+        this.elements = elements;
+
+        this.backgroundColor = Color.WHITE;//Need to change to a drawable
     }
 
-    public void update(){
+    //Logic
+    public void update(float delta){
         for (Element element: elements) {
-            
+            element.update(delta);
         }
     }
 
-    public void draw(float delta){
-        //Drawing
+    //Graphics
+    public void draw(Canvas canvas, Paint paint){
+        for (Element element: elements) {
+            element.draw(canvas, paint);
+        }
+    }
+
+    //**        Get/Sets/Add        **//
+    public Ball getBallPlayer(){
+        return ballPlayer;
+    }
+
+    public void setBallPlayer(Ball ballPlayer){
+        this.ballPlayer = ballPlayer;
+        addElement(ballPlayer);
     }
 
     public void addElement(Element element){
         elements.add(element);
     }
 
-    //***   Parcelable   ****//
-
-    /*protected World(Parcel in) {
+    //Need to change to a drawable
+    public int getBackground() {
+        return backgroundColor;
     }
-
-    public static final Creator<World> CREATOR = new Creator<World>() {
-        @Override
-        public World createFromParcel(Parcel in) {
-            return new World(in);
-        }
-
-        @Override
-        public World[] newArray(int size) {
-            return new World[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-    }*/
 }

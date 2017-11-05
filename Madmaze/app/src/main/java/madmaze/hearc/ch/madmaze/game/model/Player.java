@@ -13,9 +13,14 @@ import java.util.Map;
 public class Player{
 
     String name;
-    Map<String, Integer> scores;
+    Map<World, Integer> scores;
 
-    public Player(String name, Map<String, Integer> scores){
+    public Player(String name){
+        this.name = name;
+        this.scores = new HashMap<>();
+    }
+
+    public Player(String name, Map<World, Integer> scores){
         this.name = name;
         this.scores = scores;
     }
@@ -28,8 +33,8 @@ public class Player{
         return scores.get(world);
     }
 
-    public void setScore(String levelName, int score){
-        scores.put(levelName, score);
+    public void setScore(World world, int score){
+        scores.put(world, score);
     }
 
     //***   Parcelable    ***//
