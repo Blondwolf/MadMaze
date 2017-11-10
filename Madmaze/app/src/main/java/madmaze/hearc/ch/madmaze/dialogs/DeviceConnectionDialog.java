@@ -69,19 +69,14 @@ public class DeviceConnectionDialog extends DialogFragment implements WifiP2pMan
         this.listView.setAdapter(wifiPeerAdapter);
 
         builder.setView(view);
-        builder.setPositiveButton(R.string.button_connect, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                System.out.println("CONNECT");
-            }
-        });
-        builder.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                System.out.println("CANCEL");
-            }
-        });
+        builder.setPositiveButton(R.string.button_connect, (dialog, id) -> {});
+        builder.setNegativeButton(R.string.button_cancel, (dialog, which) -> {});
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
