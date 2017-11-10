@@ -82,12 +82,14 @@ public class GameFragment extends Fragment implements SensorEventListener {
     public void onResume() {
         super.onResume();
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_GAME);
+        controller.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
+        controller.pause();
     }
 
     //**        Sensors     **//
@@ -101,7 +103,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
         //Normalize //Useless?
         float angularSpeed = (float) Math.sqrt(axisX*axisX + axisY*axisY + axisZ*axisZ);
 
-        float accelRatio = 0.5f;
+        float accelRatio = 1f;
         controller.movePlayer(axisX * accelRatio, -axisY * accelRatio);   //Y is reversed
     }
 

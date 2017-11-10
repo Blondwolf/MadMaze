@@ -112,7 +112,6 @@ public class GameSurfaceViewBackup extends SurfaceView implements SurfaceHolder.
             Canvas canvas = null;
             while (running)
             {
-                gameController.update(0); //TODO: update the time between last update() call and now => delta
                 try
                 {
                     canvas = holder.lockCanvas(null);
