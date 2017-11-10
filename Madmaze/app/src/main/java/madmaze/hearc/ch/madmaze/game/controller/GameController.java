@@ -1,6 +1,7 @@
 package madmaze.hearc.ch.madmaze.game.controller;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.hardware.SensorEvent;
@@ -18,26 +19,42 @@ public class GameController {
     World world;
     int screenWidth, screenHeight;
 
-    //Load world
+    UpdateThread updateThread;
+
     public GameController(World world){
-        this.world = world;
+        this.world = world;     //Load world
         screenWidth = 0;
         screenHeight = 0;
+        updateThread = new UpdateThread(this);
     }
 
-    public void update(float delta) {
+    //**    Main loop   **//
+    public void start() {
+        updateThread.start();
+    }
+
+    public void pause(){
+        updateThread.stopThread();
+    }
+
+    public void update(float deltaTime) {
         //world.checkCollisions();  //TODO
         checkBorderCollision();
 
-        world.update(delta);
+        world.update(deltaTime);
     }
 
+    public void draw(Canvas canvas, Paint paint) {
+        world.draw(canvas, paint);
+    }
+
+    //**    Logics      **//
     private void checkBorderCollision() {
         //Check if the ball reach the border of the phone
         Ball ball = world.getBallPlayer();
         float nextPosX = ball.getPosition().x + ball.getSpeed().x;
         float nextPosY = ball.getPosition().y + ball.getSpeed().y;
-        float antiStick = 0.001f; //Just a value when repositioning the ball to not to stick to the wall
+        float antiStick = 0.01f; //Just a value when repositioning the ball to not to stick to the wall
 
         //In x
         if(nextPosX + ball.getRadius() > screenWidth){
@@ -45,7 +62,7 @@ public class GameController {
             ball.getSpeed().x = 0;
             ball.getAcceleration().x = 0;
         }
-        else if(nextPosX - ball.getRadius() < 0){
+        else if(nextPosX - ball.getRadius() < 0){   //Left
             ball.getPosition().x = 0 + ball.getRadius() + antiStick;
             ball.getSpeed().x = 0;
             ball.getAcceleration().x = 0;
@@ -64,10 +81,6 @@ public class GameController {
         }
     }
 
-    public void draw(Canvas canvas, Paint paint) {
-        world.draw(canvas, paint);
-    }
-
     //When the sens value change
     public void movePlayer(float x, float y) {
         world.getBallPlayer().getAcceleration().set(x, y);
@@ -79,8 +92,8 @@ public class GameController {
         screenHeight = height;
     }
 
+    //**    Gets    **//
     public World getWorld(){
         return world;
     }
-
 }

@@ -52,9 +52,19 @@ public class GameFragment extends Fragment implements SensorEventListener {
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
         //Create or load world
+
+        //TODO
+        //Maybe, change init order to :
+        //1. new Gamecontroller
+        //2. world = new World
+        //3. controller.setWorld(world)
+        //This way we can send to the world the screen size from the surfaceview
+        //and update it in the surfaceview too
+
         World world = new World();
         world.setBallPlayer(new Ball(new PointF(100, 100), 40));
-        world.addElement(new Wall(new PointF(100, 100), new PointF(50, 50)));
+        world.addElement(new Wall(new PointF(300, 0), new PointF(50, 500)));
+        world.addElement(new Wall(new PointF(500, 700), new PointF(50, 500)));
 
         controller = new GameController(world);
     }
@@ -64,7 +74,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = new GameSurfaceView(getActivity().getApplicationContext(), controller);
-        view.setBackgroundColor(controller.getWorld().getBackground());       //Need to remove when show the real background
+        view.setBackgroundColor(controller.getWorld().getBackground());       //It's not the real background but a default color screen
         return view;
     }
 
@@ -72,12 +82,14 @@ public class GameFragment extends Fragment implements SensorEventListener {
     public void onResume() {
         super.onResume();
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_GAME);
+        controller.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
+        controller.pause();
     }
 
     //**        Sensors     **//
@@ -91,7 +103,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
         //Normalize //Useless?
         float angularSpeed = (float) Math.sqrt(axisX*axisX + axisY*axisY + axisZ*axisZ);
 
-        float accelRatio = 0.5f;
+        float accelRatio = 1f;
         controller.movePlayer(axisX * accelRatio, -axisY * accelRatio);   //Y is reversed
     }
 

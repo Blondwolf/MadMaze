@@ -2,9 +2,7 @@ package madmaze.hearc.ch.madmaze.game.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -28,7 +26,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         thread = new DrawingThread();
 
         paint = new Paint();
-        paint.setColor(Color.RED);
+        //paint.setColor(Color.RED);
     }
 
     //Programmaticaly
@@ -41,7 +39,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     //Update from surfaceview
     @Override
     protected void onDraw(Canvas canvas) {
-        controller.update(0);       //Calculate delta
+        //controller.update(0);       //Calculate delta
         postInvalidate();
         controller.draw(canvas, paint);
     }
@@ -50,6 +48,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         controller.updateSurfaceInfos(width, height);
+        //((GameFragment)((MainActivity)getContext()).getFragmentManager().findFragmentById(R.id.fragment_container)).changeWorldSize();
     }
 
     @Override

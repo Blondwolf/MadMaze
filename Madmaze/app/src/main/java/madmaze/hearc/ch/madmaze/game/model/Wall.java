@@ -21,6 +21,6 @@ public class Wall extends ElementStatic {
     @Override
     public void draw(Canvas canvas, Paint paint) {
         paint.setColor(Color.RED);
-        canvas.drawRect(position.x, position.y, size.x, size.y, paint);
+        canvas.drawRect(position.x, position.y, position.x+size.x, position.y+size.y, paint);
     }
 }

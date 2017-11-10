@@ -13,17 +13,24 @@ public abstract class ElementMovable extends Element {
 
     PointF acceleration;
     PointF speed;
+    PointF friction;
+
+    float frictionCoefficient;
 
     //**    Main methods    **//
     public ElementMovable(PointF position) {
         super(position, true);
 
+        frictionCoefficient = 0.001f;   //Need to update friction in main loop
+
         acceleration = new PointF(0, 0);
         speed = new PointF(0, 0);
+        friction = new PointF(frictionCoefficient, frictionCoefficient);
     }
 
     @Override
     public void update(float delta){
+        acceleration.set(friction.x + acceleration.x, friction.y + acceleration.y);
         speed.set(speed.x + acceleration.x, speed.y + acceleration.y);  //Speed += accel
         position.set(speed.x + position.x, speed.y + position.y);       //Pos += speed
 
@@ -36,9 +43,6 @@ public abstract class ElementMovable extends Element {
     public abstract void draw(Canvas canvas, Paint paint);
 
     //**    Moves    **//
-    /*public void setAcceleration(float x, float y){
-        acceleration.set(x, y);
-    }*/
     public PointF getAcceleration(){ return acceleration; }
     public PointF getSpeed(){ return speed; }
 }
