@@ -16,7 +16,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import madmaze.hearc.ch.madmaze.MainActivity;
 import madmaze.hearc.ch.madmaze.R;
+import madmaze.hearc.ch.madmaze.fragment.GameFragment;
 import madmaze.hearc.ch.madmaze.wifi.WifiPeerAdapter;
 
 /**
@@ -67,10 +69,15 @@ public class DeviceConnectionDialog extends DialogFragment implements WifiP2pMan
             }
         });
         this.listView.setAdapter(wifiPeerAdapter);
-
         builder.setView(view);
-        builder.setPositiveButton(R.string.button_connect, (dialog, id) -> {});
-        builder.setNegativeButton(R.string.button_cancel, (dialog, which) -> {});
+        builder.setPositiveButton(R.string.button_connect, (dialog, id) -> { if(getActivity() instanceof MainActivity) {
+            if(wifiPeerAdapter.getSelectedPosition() > -1) {
+                ((MainActivity)getActivity()).loadFragment(GameFragment.newInstance("test", "test2"), GameFragment.TAG);
+                System.out.println("YES " + wifiPeerAdapter.getSelectedPosition());
+            }
+        }
+        });
+        builder.setNegativeButton(R.string.button_cancel, (dialog, which) -> { dialog.dismiss(); });
         return builder.create();
     }
 
