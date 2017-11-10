@@ -61,6 +61,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        System.out.println("surfaceDestroyed"); //Throw some bugs with the render loop who think it's not finish
         thread.keepDrawing = false;
 
         boolean joined = false;

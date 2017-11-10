@@ -23,11 +23,8 @@ public abstract class Element {
         return position;
     }
 
-    public void setPosition(PointF position) {
-        this.position = position;
-    }
-
-    public boolean isMovable(){ return movable; }
+    //Useless?
+    //public boolean isMovable(){ return movable; }
 
     public abstract void update(float delta);
     public abstract void draw(Canvas canvas, Paint paint);

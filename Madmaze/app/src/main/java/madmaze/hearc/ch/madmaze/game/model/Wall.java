@@ -18,14 +18,6 @@ public class Wall extends ElementStatic {
         this.size = size;
     }
 
-    public PointF getSize() {
-        return size;
-    }
-
-    public void setSize(PointF size) {
-        this.size = size;
-    }
-
     @Override
     public void draw(Canvas canvas, Paint paint) {
         paint.setColor(Color.RED);

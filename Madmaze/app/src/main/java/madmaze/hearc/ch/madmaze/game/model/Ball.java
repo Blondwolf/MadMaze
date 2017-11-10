@@ -22,14 +22,10 @@ public class Ball extends ElementMovable {
         return radius;
     }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
-    }
-
     @Override
     public void update(float delta) {
         super.update(delta);
-        //Maybe nothing cause it's in ElementMovable
+        //It's in ElementMovable
     }
 
     @Override

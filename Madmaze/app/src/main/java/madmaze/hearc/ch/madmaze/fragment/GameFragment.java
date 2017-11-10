@@ -62,11 +62,11 @@ public class GameFragment extends Fragment implements SensorEventListener {
     //Android widgets
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         view = new GameSurfaceView(getActivity().getApplicationContext(), controller);
         view.setBackgroundColor(controller.getWorld().getBackground());       //Need to remove when show the real background
         return view;
     }
-
 
     @Override
     public void onResume() {
@@ -88,12 +88,11 @@ public class GameFragment extends Fragment implements SensorEventListener {
         float axisY = event.values[1];
         float axisZ = event.values[2];
 
-        //Normalize
+        //Normalize //Useless?
         float angularSpeed = (float) Math.sqrt(axisX*axisX + axisY*axisY + axisZ*axisZ);
-        //if()
 
-        controller.movePlayer(axisY, axisX);
-        //System.out.println(axisX +" / "+ axisY +" / "+ axisZ);
+        float accelRatio = 0.5f;
+        controller.movePlayer(axisX * accelRatio, -axisY * accelRatio);   //Y is reversed
     }
 
     @Override
