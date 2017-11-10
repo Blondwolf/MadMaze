@@ -46,6 +46,9 @@ public class World {
 
     //Graphics
     public void draw(Canvas canvas, Paint paint){
+        //TODO draw background
+        paint.setColor(Color.BLACK);
+
         for (Element element: elements) {
             element.draw(canvas, paint);
         }
