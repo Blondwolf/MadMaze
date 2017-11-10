@@ -1,33 +1,51 @@
 package madmaze.hearc.ch.madmaze;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
-import madmaze.hearc.ch.madmaze.fragment.GameFragment;
-import madmaze.hearc.ch.madmaze.fragment.HomeFragment;
+import madmaze.hearc.ch.madmaze.fragments.ChooseLevelFragment;
+import madmaze.hearc.ch.madmaze.fragments.GameFragment;
+import madmaze.hearc.ch.madmaze.fragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
+    //region ATTRIBUTES
+    private SectionsStatePagerAdapter sectionsStatePagerAdapter;
+    private ViewPager viewPager;
+    //endregion ATTRIBUTES
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadFragment(HomeFragment.newInstance(), GameFragment.TAG);
+        Log.d(TAG, "onCreate: ");
+
+        sectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
+
+        viewPager = (ViewPager) findViewById(R.id.fragment_container);
+        setupViewPager(viewPager);
     }
 
-    public void loadFragment(Fragment fragment, String tag){
-        FragmentManager fragmentManager = getFragmentManager();
+    private void setupViewPager(ViewPager vp){
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction
-                .replace(R.id.fragment_container, fragment, tag)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
 
-        fragmentTransaction.commit();
+        adapter.addFragment(new HomeFragment(), "HomeFragment");            //0
+        adapter.addFragment(new GameFragment(), "GameFragment");            //1
+        adapter.addFragment(new ChooseLevelFragment(), "LevelFragment");    //2
+
+        vp.setAdapter(adapter);
+    }
+
+    public void setViewPager(int fragmentNumber){
+        viewPager.setCurrentItem(fragmentNumber);
     }
 }
