@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Wall;
@@ -49,7 +52,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
         //Sensors
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
 
         //Create or load world
 
@@ -96,19 +99,31 @@ public class GameFragment extends Fragment implements SensorEventListener {
     //https://developer.android.com/guide/topics/sensors/sensors_motion.html#sensors-motion-gyro
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float axisX = event.values[0];
-        float axisY = event.values[1];
-        float axisZ = event.values[2];
+        //https://stackoverflow.com/questions/16763331/using-the-rotation-vector-sensor
+        float vec[] = event.values;
+        float[] orientation = new float[3];
+        float[] rotMat = new float[9];
 
-        //Normalize //Useless?
-        float angularSpeed = (float) Math.sqrt(axisX*axisX + axisY*axisY + axisZ*axisZ);
+        SensorManager.getRotationMatrixFromVector(rotMat, vec);
+        SensorManager.getOrientation(rotMat, orientation);
 
-        float accelRatio = 1f;
-        controller.movePlayer(axisX * accelRatio, -axisY * accelRatio);   //Y is reversed
+        //float yaw = (float) orientation[0]; //Yaw
+        float pitch = (float) orientation[1]; //Pitch
+        float roll = (float) orientation[2]; //Roll
+
+        controller.movePlayer(-pitch, -roll);   //Y is reversed
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         //Nothing normally
+    }
+
+    public static float round(float value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.floatValue();
     }
 }
