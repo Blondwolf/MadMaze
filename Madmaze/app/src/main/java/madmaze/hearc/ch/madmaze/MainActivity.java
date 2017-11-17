@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
     }
 
+    //TODO: change this part to disable swipeability from a fragment to another
     private void setupViewPager(ViewPager vp){
 
         SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());

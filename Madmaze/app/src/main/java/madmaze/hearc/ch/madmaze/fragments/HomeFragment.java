@@ -47,22 +47,26 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         //region BUTTONS
-        btnStart = (Button) view.findViewById(R.id.btn_startGame);
-        btnOptions = (Button) view.findViewById(R.id.btn_options);
-        btnHelp = (Button) view.findViewById(R.id.btn_help);
-        btnAbout = (Button) view.findViewById(R.id.btn_about);
-        btnQuit = (Button) view.findViewById(R.id.btn_quit);
+        btnStart = (Button) view.findViewById(R.id.btn_home_startGame);
+        btnOptions = (Button) view.findViewById(R.id.btn_home_options);
+        btnHelp = (Button) view.findViewById(R.id.btn_home_help);
+        btnAbout = (Button) view.findViewById(R.id.btn_home_about);
+        btnQuit = (Button) view.findViewById(R.id.btn_home_quit);
         //endregion BUTTONS
 
         Log.d(TAG, "onCreateView: ");
 
         //region BUTTON LISTENERS
+        //TODO: change path
         btnStart.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view){
-                Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
-                ((MainActivity)getActivity()).setViewPager(1);
+                android.app.FragmentManager fm = getActivity().getFragmentManager();
+
+                //TODO: choose between "choose lvl" or "choose server"
+                CustomDialogFragment.newInstance(R.string.btn_startGame, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_start_host_or_not)
+                        .show(fm, TAG);
             }
         });
 

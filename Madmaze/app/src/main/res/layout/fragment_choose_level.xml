@@ -1,13 +1,83 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="madmaze.hearc.ch.madmaze.fragments.ChooseLevelFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TITLE -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="I'm in the choose level fragment" />
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_choose_level"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.043" />
 
-</FrameLayout>
+    <!-- TODO: swipeable image view displaying the levels and when clicked => pop-up OK-CANCEL -->
+
+    <!--region BUTTONS-->
+    <!-- BACK TO MENU -->
+    <Button
+        android:id="@+id/btn_chlvl_backToMenu"
+        android:layout_width="wrap_content"
+
+        android:layout_height="44dp"
+
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="monospace"
+        android:text="@string/btn_go_back_to_menu"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_select"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- SELECT -->
+    <Button
+        android:id="@+id/btn_chlvl_select"
+        android:layout_width="wrap_content"
+
+        android:layout_height="44dp"
+
+        android:layout_marginBottom="8dp"
+        android:fontFamily="monospace"
+        android:text="@string/btn_select"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!-- RANDOM -->
+    <Button
+        android:id="@+id/btn_chlvl_random"
+        android:layout_width="wrap_content"
+
+        android:layout_height="44dp"
+
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="monospace"
+        android:text="@string/btn_random"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/btn_select" />
+
+    <!--endregion BUTTONS -->
+
+
+</android.support.constraint.ConstraintLayout>

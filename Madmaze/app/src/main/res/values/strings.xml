@@ -12,6 +12,9 @@
     <!--region SERVER MODE-->
     <string name="title_choose_level">Choose a level</string>
     <!--endregion SERVER MODE-->
+    <string name="title_scores">Scores</string>
+    <string name="title_best_scores">High scores [with teams]</string>
+    <string name="title_current_score">Current score</string>
     <!--endregion TITLES-->
 
     <!--region ALERTS-->
@@ -25,7 +28,8 @@
     <string name="alert_dialog_quit">Are you sure you want to quit the game?</string>
 
     <string name="alert_dialog_connect_to_server">Do you want to connect to this server?</string>
-
+    <string name="alert_dialog_select_level">Do you want to choose this level?</string>
+    <string name="alert_dialog_server_or_not">Do you want to host the server?</string>
     <!--endregion ALERTS-->
 
     <!--region BUTTONS-->

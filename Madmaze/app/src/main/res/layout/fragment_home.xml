@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="madmaze.hearc.ch.madmaze.fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TITLE -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -17,9 +17,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.043" />
 
-    <!-- Start -->
+    <!--region BUTTONS-->
+    <!-- START -->
     <Button
-        android:id="@+id/btn_startGame"
+        android:id="@+id/btn_home_startGame"
         android:layout_width="120dp"
 
         android:layout_height="40dp"
@@ -37,9 +38,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.294" />
 
-    <!-- Options -->
+    <!-- OPTIONS -->
     <Button
-        android:id="@+id/btn_options"
+        android:id="@+id/btn_home_options"
         android:layout_width="120dp"
 
         android:layout_height="40dp"
@@ -54,12 +55,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_startGame"
+        app:layout_constraintTop_toBottomOf="@+id/btn_home_startGame"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Help -->
+    <!-- HELP -->
     <Button
-        android:id="@+id/btn_help"
+        android:id="@+id/btn_home_help"
         android:layout_width="120dp"
 
         android:layout_height="40dp"
@@ -74,12 +75,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_options"
+        app:layout_constraintTop_toBottomOf="@+id/btn_home_options"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!-- About -->
+    <!-- ABOUT -->
     <Button
-        android:id="@+id/btn_about"
+        android:id="@+id/btn_home_about"
         android:layout_width="120dp"
 
         android:layout_height="40dp"
@@ -95,12 +96,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_help"
+        app:layout_constraintTop_toBottomOf="@+id/btn_home_help"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Quit -->
+    <!-- QUIT -->
     <Button
-        android:id="@+id/btn_quit"
+        android:id="@+id/btn_home_quit"
         android:layout_width="120dp"
 
         android:layout_height="40dp"
@@ -115,10 +116,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_about"
+        app:layout_constraintTop_toBottomOf="@+id/btn_home_about"
         app:layout_constraintVertical_bias="0.0" />
 
-
-
+    <!--endregion BUTTONS-->
 
 </android.support.constraint.ConstraintLayout>
