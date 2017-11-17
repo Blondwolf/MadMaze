@@ -63,10 +63,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view){
                 android.app.FragmentManager fm = getActivity().getFragmentManager();
-
                 //TODO: choose between "choose lvl" or "choose server"
-                CustomDialogFragment.newInstance(R.string.btn_startGame, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_start_host_or_not)
-                        .show(fm, TAG);
+                /*CustomDialogFragment.newInstance(R.string.btn_startGame, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_start_host_or_not)
+                        .show(fm, TAG);*/
+                Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).setViewPager(1);
+
             }
         });
 

@@ -57,8 +57,8 @@ public class ChooseLevelFragment extends Fragment {
 
             @Override
             public void onClick(View view){
-                Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
-                ((MainActivity)getActivity()).setViewPager(1);
+                Toast.makeText(getActivity(), "Going back to HomeFragment", Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).setViewPager(0);
             }
         });
 
