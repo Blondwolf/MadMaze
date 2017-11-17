@@ -7,20 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import madmaze.hearc.ch.madmaze.R;
 
-public class ChooseLevelFragment extends Fragment {
+public class ServerListFragment extends Fragment {
 
-    private static final String TAG = "ChooseLevelFragment";
+    private static final String TAG = "ServerListFragment";
 
-    public ChooseLevelFragment() {
+    public ServerListFragment(){
         // Required empty public constructor
     }
 
-    public static ChooseLevelFragment newInstance(String param1, String param2) {
-        ChooseLevelFragment fragment = new ChooseLevelFragment();
+    public static ServerListFragment newInstance(){
+        ServerListFragment fragment = new ServerListFragment();
+
         return fragment;
     }
 
@@ -33,6 +33,6 @@ public class ChooseLevelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choose_level, container, false);
+        return inflater.inflate(R.layout.fragment_choose_server, container, false);
     }
 }

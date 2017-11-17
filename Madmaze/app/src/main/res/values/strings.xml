@@ -6,16 +6,26 @@
 
     <!--region TITLES-->
     <string name="title_home">Home</string>
+    <!--region NORMAL MODE-->
+    <string name="title_sever_list">Servers list</string>
+    <!--endregion NORMAL MODE-->
+    <!--region SERVER MODE-->
+    <string name="title_choose_level">Choose a level</string>
+    <!--endregion SERVER MODE-->
     <!--endregion TITLES-->
 
     <!--region ALERTS-->
     <string name="alert_dialog_ok">OK</string>
     <string name="alert_dialog_cancel">Cancel</string>
     <!-- TODO: modify these messages -->
+    <string name="alert_dialog_start_host_or_not">Do you want to host the game?</string>
     <string name="alert_dialog_options">This page will be taken care of soon.</string>
-    <string name="alert_dialog_about">MadMaze is an Android project created by Thomas Lovis, Julia Németh and Kevin Vulliemin. \n3dlm, 2017\nHE-ARC, Neuchâtel, Switzerland</string>
+    <string name="alert_dialog_about">MadMaze is an Android project created by Thomas Lovis, Julia Németh and Kevin Vulliemin. \n\n3dlm, 2017\n\nHE-ARC, Neuchâtel, Switzerland</string>
     <string name="alert_dialog_help">With a friend\'s help, try to roll the ball in the hole.</string>
     <string name="alert_dialog_quit">Are you sure you want to quit the game?</string>
+
+    <string name="alert_dialog_connect_to_server">Do you want to connect to this server?</string>
+
     <!--endregion ALERTS-->
 
     <!--region BUTTONS-->
@@ -31,6 +41,22 @@
     <string name="btn_help">Help</string>
     <string name="btn_about">About</string>
     <!--endregion HOME-->
+
+    <!--region SERVER LIST -->
+    <string name="btn_refresh">Refresh</string>
+    <!--endregion SERVER LIST -->
+
+    <!--region CHOOSE LEVEL -->
+    <string name="btn_random">Random</string>
+    <!--endregion CHOOSE LEVEL -->
+
+    <!--region SCORES -->
+    <string name="btn_go_back_to_menu">Go back to Menu</string>
+    <string name="btn_redo">Redo</string>
+    <!--endregion SCORES -->
+
+
+
     <!--endregion BUTTONS-->
 
 

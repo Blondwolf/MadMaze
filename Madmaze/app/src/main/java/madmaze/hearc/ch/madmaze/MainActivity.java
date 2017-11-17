@@ -9,6 +9,8 @@ import android.util.Log;
 import madmaze.hearc.ch.madmaze.fragments.ChooseLevelFragment;
 import madmaze.hearc.ch.madmaze.fragments.GameFragment;
 import madmaze.hearc.ch.madmaze.fragments.HomeFragment;
+import madmaze.hearc.ch.madmaze.fragments.ScoresFragment;
+import madmaze.hearc.ch.madmaze.fragments.ServerListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new HomeFragment(), "HomeFragment");            //0
         adapter.addFragment(new GameFragment(), "GameFragment");            //1
         adapter.addFragment(new ChooseLevelFragment(), "LevelFragment");    //2
+        adapter.addFragment(new ServerListFragment(), "ServerListFragment");//3
+        adapter.addFragment(new ScoresFragment(), "ScoresFragment");        //4
 
         vp.setAdapter(adapter);
     }

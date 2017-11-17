@@ -6,10 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.DialogFragment;
 
-/**
- * Created by castorcastor on 10.11.2017.
- */
-
 public class CustomDialogFragment extends DialogFragment {
 
     public static CustomDialogFragment newInstance(int destinationFragment,  MessageType type, int message){

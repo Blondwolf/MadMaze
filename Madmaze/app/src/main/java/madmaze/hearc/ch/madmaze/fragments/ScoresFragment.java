@@ -2,25 +2,23 @@ package madmaze.hearc.ch.madmaze.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import madmaze.hearc.ch.madmaze.R;
 
-public class ChooseLevelFragment extends Fragment {
+public class ScoresFragment extends Fragment {
 
-    private static final String TAG = "ChooseLevelFragment";
+    private static final String TAG = "ScoresFragment";
 
-    public ChooseLevelFragment() {
+    public ScoresFragment(){
         // Required empty public constructor
     }
 
-    public static ChooseLevelFragment newInstance(String param1, String param2) {
-        ChooseLevelFragment fragment = new ChooseLevelFragment();
+    public static ScoresFragment newInstance(){
+        ScoresFragment fragment = new ScoresFragment();
+
         return fragment;
     }
 
@@ -33,6 +31,6 @@ public class ChooseLevelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choose_level, container, false);
+        return inflater.inflate(R.layout.fragment_scores, container, false);
     }
 }
