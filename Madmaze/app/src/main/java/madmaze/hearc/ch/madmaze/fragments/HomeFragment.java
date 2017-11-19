@@ -2,6 +2,7 @@ package madmaze.hearc.ch.madmaze.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import madmaze.hearc.ch.madmaze.CustomDialogFragment;
-import madmaze.hearc.ch.madmaze.MainActivity;
-import madmaze.hearc.ch.madmaze.MessageType;
+import madmaze.hearc.ch.madmaze.enums.FragmentType;
+import madmaze.hearc.ch.madmaze.enums.MessageType;
 import madmaze.hearc.ch.madmaze.R;
 
 public class HomeFragment extends Fragment {
@@ -62,13 +63,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
-                android.app.FragmentManager fm = getActivity().getFragmentManager();
-                //TODO: choose between "choose lvl" or "choose server"
-                /*CustomDialogFragment.newInstance(R.string.btn_startGame, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_start_host_or_not)
-                        .show(fm, TAG);*/
-                Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
-                ((MainActivity)getActivity()).setViewPager(1);
+                FragmentManager fm = getActivity().getSupportFragmentManager();
 
+                CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_start_host_or_not)
+                        .show(fm, TAG);
+
+                Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -76,9 +76,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
-                android.app.FragmentManager fm = getActivity().getFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
                 //shows where it goes and the message
-                CustomDialogFragment.newInstance(R.string.btn_options, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_options)
+                CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_options)
                         .show(fm, TAG);
             }
         });
@@ -87,8 +87,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
-                android.app.FragmentManager fm = getActivity().getFragmentManager();
-                CustomDialogFragment.newInstance(R.string.btn_about, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_about)
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_about)
                         .show(fm, TAG);
             }
         });
@@ -97,8 +97,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
-                android.app.FragmentManager fm = getActivity().getFragmentManager();
-                CustomDialogFragment.newInstance(R.string.btn_help, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_help)
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_help)
                         .show(fm, TAG);
             }
         });
@@ -107,8 +107,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
-                android.app.FragmentManager fm = getActivity().getFragmentManager();
-                CustomDialogFragment.newInstance(R.string.btn_quit, MessageType.QUIT, R.string.alert_dialog_quit)
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.QUIT, R.string.alert_dialog_quit)
                         .show(fm, TAG);
             }
         });

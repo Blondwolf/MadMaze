@@ -6,10 +6,22 @@
     android:layout_height="match_parent"
     tools:context="madmaze.hearc.ch.madmaze.MainActivity">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/fragment_container"
+    <FrameLayout
+        android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+
+        <fragment
+            android:name="madmaze.hearc.ch.madmaze.fragments.HomeFragment"
+            android:id="@+id/home_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </FrameLayout>
+
+
+
+
 
 </RelativeLayout>
