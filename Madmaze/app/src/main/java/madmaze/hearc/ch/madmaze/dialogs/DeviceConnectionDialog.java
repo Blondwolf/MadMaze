@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.IntentFilter;
+import android.net.wifi.WpsInfo;
+import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -104,8 +107,23 @@ public class DeviceConnectionDialog extends DialogFragment implements WifiP2pMan
         builder.setView(view);
         builder.setPositiveButton(R.string.button_connect, (dialog, id) -> { if(getActivity() instanceof MainActivity) {
             if(wifiPeerAdapter.getSelectedPosition() > -1) {
-                ((MainActivity)getActivity()).loadFragment(ChooseLevelFragment.newInstance("test", "test2"), ChooseLevelFragment.TAG);
-                System.out.println("YES " + wifiPeerAdapter.getSelectedPosition());
+                WifiP2pDevice device = wifiPeerAdapter.getSelectedDevice();
+                WifiP2pConfig config = new WifiP2pConfig();
+                config.deviceAddress = device.deviceAddress;
+                config.wps.setup = WpsInfo.PBC;
+                wifiManager.connect(channel, config, new WifiP2pManager.ActionListener(){
+
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(getActivity(), "Connect succes.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int reason) {
+
+                    }
+                });
             }
         }
         });
