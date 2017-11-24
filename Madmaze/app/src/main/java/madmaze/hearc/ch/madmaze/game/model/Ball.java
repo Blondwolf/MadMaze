@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.drawable.shapes.OvalShape;
 
 /**
  * Created by KVull on 27.10.2017.
@@ -12,10 +14,14 @@ import android.graphics.PointF;
 public class Ball extends ElementMovable {
 
     float radius;
+    OvalShape circle;
 
     public Ball(PointF position, float radius) {
         super(position);
         this.radius = radius;
+        circle = new OvalShape();
+        circle.resize(2*radius, 2*radius);//Width & Height = 2*radius
+        //circle.
     }
 
     public float getRadius() {

@@ -17,7 +17,7 @@ import java.math.RoundingMode;
 
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 import madmaze.hearc.ch.madmaze.game.model.Ball;
-import madmaze.hearc.ch.madmaze.game.model.Wall;
+import madmaze.hearc.ch.madmaze.game.model.Rectangle;
 import madmaze.hearc.ch.madmaze.game.model.World;
 import madmaze.hearc.ch.madmaze.game.view.GameSurfaceView;
 
@@ -66,8 +66,8 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
         World world = new World();
         world.setBallPlayer(new Ball(new PointF(100, 100), 40));
-        world.addElement(new Wall(new PointF(300, 0), new PointF(50, 500)));
-        world.addElement(new Wall(new PointF(500, 700), new PointF(50, 500)));
+        world.addElement(new Rectangle(new PointF(300, 0), new PointF(50, 500)));
+        world.addElement(new Rectangle(new PointF(500, 700), new PointF(50, 500)));
 
         controller = new GameController(world);
     }

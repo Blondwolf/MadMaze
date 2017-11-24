@@ -68,6 +68,10 @@ public class World {
         elements.add(element);
     }
 
+    public List<Element> getElements(){
+        return elements;
+    }
+
     //Need to change to a drawable
     public int getBackground() {
         return backgroundColor;
