@@ -20,6 +20,7 @@ public class World {
 
     //Logic
     Ball ballPlayer;
+    Goal goal;
     List<Element> elements;
 
     //Graphics
@@ -55,6 +56,8 @@ public class World {
     }
 
     //**        Get/Sets/Add        **//
+
+    //region BALL SETTER/GETTER
     public Ball getBallPlayer(){
         return ballPlayer;
     }
@@ -63,7 +66,18 @@ public class World {
         this.ballPlayer = ballPlayer;
         addElement(ballPlayer);
     }
+    //endregion BALL SETTER/GETTER
 
+    //region GOAL GETTER/SETTER
+    public Goal getGoal(){return goal;}
+
+    public void setGoal(Goal goal){
+        this.goal = goal;
+        addElement(goal);
+    }
+    //endregion GOAL GETTER/SETTER
+
+    //region ELEMENTS HANDLING
     public void addElement(Element element){
         elements.add(element);
     }
@@ -71,6 +85,7 @@ public class World {
     public List<Element> getElements(){
         return elements;
     }
+    //endregion ELEMENTS HANDLING
 
     //Need to change to a drawable
     public int getBackground() {

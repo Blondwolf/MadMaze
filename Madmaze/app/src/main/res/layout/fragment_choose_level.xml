@@ -36,7 +36,7 @@
         android:textSize="10sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_select"
+        app:layout_constraintEnd_toStartOf="@+id/btn_chlvl_select"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -75,7 +75,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btn_select" />
+        app:layout_constraintStart_toEndOf="@+id/btn_chlvl_select" />
 
     <!--endregion BUTTONS -->
 

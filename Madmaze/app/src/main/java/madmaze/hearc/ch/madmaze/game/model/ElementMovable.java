@@ -45,4 +45,7 @@ public abstract class ElementMovable extends Element {
     //**    Moves    **//
     public PointF getAcceleration(){ return acceleration; }
     public PointF getSpeed(){ return speed; }
+
+    public void setAcceleration(PointF acceleration){ this.acceleration = acceleration; }
+    public void setSpeed(PointF speed) {this.speed = speed; }
 }

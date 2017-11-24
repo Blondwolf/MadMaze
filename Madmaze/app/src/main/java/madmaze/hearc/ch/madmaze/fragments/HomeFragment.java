@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
-        //Nothing yet
+
         return fragment;
     }
 
@@ -58,7 +58,6 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "onCreateView: ");
 
         //region BUTTON LISTENERS
-        //TODO: change path
         btnStart.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -68,7 +67,7 @@ public class HomeFragment extends Fragment {
                 CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_start_host_or_not)
                         .show(fm, TAG);
 
-                Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -113,7 +112,6 @@ public class HomeFragment extends Fragment {
             }
         });
         //endregion BUTTON LISTENERS
-
 
         return view;
     }

@@ -5,11 +5,11 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Element;
+import madmaze.hearc.ch.madmaze.game.model.Goal;
 import madmaze.hearc.ch.madmaze.game.model.Rectangle;
 import madmaze.hearc.ch.madmaze.game.model.World;
 
@@ -19,10 +19,14 @@ import madmaze.hearc.ch.madmaze.game.model.World;
 
 public class GameController {
 
+    //region ATTRIBUTES
     World world;
     int screenWidth, screenHeight;
 
     UpdateThread updateThread;
+
+    boolean gameEnd = false;
+    //region ATTRIBUTES
 
     public GameController(World world){
         this.world = world;     //Load world
@@ -59,17 +63,24 @@ public class GameController {
     }
 
     //**    Logics      **//
+    //region COLLISION HANDLING
+
+    //handles all the collision check methods
     private void handleCollisions(){
         //Just check the next position as position for the test
         Ball ball = world.getBallPlayer();
+        Goal goal = world.getGoal();
+
         float nextPosX = ball.getPosition().x + ball.getSpeed().x;
         float nextPosY = ball.getPosition().y + ball.getSpeed().y;
         float antiStick = 0.01f; //Just a value when repositioning the ball to not to stick to the wall. must be taller than the minimum acceleration
 
         handleBorderCollision(ball, nextPosX, nextPosY, antiStick);
-        handleWordCollisions(ball, nextPosX, nextPosY, antiStick);
+        handleWorldCollisions(ball, nextPosX, nextPosY, antiStick);
+        handleGoalCollisions(ball, goal);
     }
 
+    //check collision
     private void handleBorderCollision(Ball ball, float nextPosX, float nextPosY, float antiStick) {
         //Check if the ball reach the border of the phone
         //In x
@@ -98,7 +109,7 @@ public class GameController {
     }
 
     //Maybe with more balls
-    private void handleWordCollisions(Ball ball, float nextPosX, float nextPosY, float antiStick) {
+    private void handleWorldCollisions(Ball ball, float nextPosX, float nextPosY, float antiStick) {
         //test
         PointF center = new PointF(nextPosX, nextPosY);
         for (Element element : world.getElements()) {
@@ -111,20 +122,20 @@ public class GameController {
 
                 List<PointF> intersections;
                 intersections = GameTools.getCircleLineIntersectionPoint(bottomLeft, topLeft, center, ball.getRadius());
-                if(intersections.size() > 0)
-                    Log.e("madmaze", "collide on left of " + rect.getPosition().toString() +  intersections.toString());
+                if(intersections.size() > 0){}
+                    //Log.e("madmaze", "collide on left of " + rect.getPosition().toString() +  intersections.toString());
 
                 intersections = GameTools.getCircleLineIntersectionPoint(topLeft, topRight, center, ball.getRadius());
-                if(intersections.size() > 0)
-                    Log.e("madmaze", "collide on top of " + rect.getPosition().toString() +  intersections.toString());
+                if(intersections.size() > 0){}
+                    //Log.e("madmaze", "collide on top of " + rect.getPosition().toString() +  intersections.toString());
 
                 intersections = GameTools.getCircleLineIntersectionPoint(topRight, bottomRight, center, ball.getRadius());
-                if(intersections.size() > 0)
-                    Log.e("madmaze", "collide on right of " + rect.getPosition().toString() +  intersections.toString());
+                if(intersections.size() > 0){}
+                    //Log.e("madmaze", "collide on right of " + rect.getPosition().toString() +  intersections.toString());
 
                 intersections = GameTools.getCircleLineIntersectionPoint(bottomRight, bottomLeft, center, ball.getRadius());
-                if(intersections.size() > 0)
-                    Log.e("madmaze", "collide on bottom of " + rect.getPosition().toString() +  intersections.toString());
+                if(intersections.size() > 0){}
+                    //Log.e("madmaze", "collide on bottom of " + rect.getPosition().toString() +  intersections.toString());
             }
         }
 
@@ -162,6 +173,25 @@ public class GameController {
 
     }
 
+    //handle collision with Goal -> triggers end of game event
+    private void handleGoalCollisions(Ball ball, Goal goal){
+
+        float x1 = ball.getPosition().x;
+        float x2 = goal.getPosition().x;
+        float y1 = ball.getPosition().y;
+        float y2 = goal.getPosition().y;
+
+        float distanceFromCenter = (float) Math.sqrt(Math.pow((x1 - x2), 2.) + (float) Math.pow((y1 -y2), 2.));
+
+        if((ball.getRadius()) > distanceFromCenter){
+            ball.setAcceleration(new PointF(0,0));
+            ball.setSpeed(new PointF(0,0));
+            Log.e("collision", "handleGoalCollisions: " + distanceFromCenter);
+        }
+    }
+
+    //endregion COLLISION HANDLING
+
     //When the sens value change
     public void movePlayer(float x, float y) {
         world.getBallPlayer().getAcceleration().set(x, y);
@@ -177,4 +207,6 @@ public class GameController {
     public World getWorld(){
         return world;
     }
+
+    public boolean isGameEnd(){ return gameEnd; }
 }
