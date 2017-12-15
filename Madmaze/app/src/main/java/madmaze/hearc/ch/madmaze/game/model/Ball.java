@@ -28,6 +28,22 @@ public class Ball extends ElementMovable {
         return radius;
     }
 
+    public float getNextTop(){
+        return getPosition().y + getSpeed().y - getRadius();
+    }
+
+    public float getNextBottom(){
+        return getPosition().y + getSpeed().y + getRadius();
+    }
+
+    public float getNextLeft(){
+        return getPosition().x + getSpeed().x - getRadius();
+    }
+
+    public float getNextRight(){
+        return getPosition().x + getSpeed().x + getRadius();
+    }
+
     @Override
     public void update(float delta) {
         super.update(delta);

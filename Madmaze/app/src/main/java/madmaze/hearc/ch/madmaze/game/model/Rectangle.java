@@ -27,4 +27,20 @@ public class Rectangle extends ElementStatic {
     public PointF getSecondPoint(){
         return size;
     }
+
+    public float getTop(){
+        return getPosition().y;
+    }
+
+    public float getLeft(){
+        return getPosition().x;
+    }
+
+    public float getBottom(){
+        return getSecondPoint().x;
+    }
+
+    public float getRight(){
+        return getSecondPoint().y;
+    }
 }

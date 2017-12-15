@@ -110,67 +110,45 @@ public class GameController {
 
     //Maybe with more balls
     private void handleWorldCollisions(Ball ball, float nextPosX, float nextPosY, float antiStick) {
-        //test
-        PointF center = new PointF(nextPosX, nextPosY);
+        //PointF center = new PointF(nextPosX, nextPosY);
         for (Element element : world.getElements()) {
             if(element instanceof Rectangle) {
                 Rectangle rect = (Rectangle) element;
-                PointF topLeft = new PointF(rect.getPosition().x, rect.getPosition().y);
-                PointF bottomLeft = new PointF(rect.getPosition().x, rect.getPosition().y + rect.getSecondPoint().y);
-                PointF topRight = new PointF(rect.getPosition().x + rect.getSecondPoint().x, rect.getPosition().y);
-                PointF bottomRight = new PointF(rect.getPosition().x + rect.getSecondPoint().x, rect.getPosition().y + rect.getSecondPoint().y);
 
-                List<PointF> intersections;
-                intersections = GameTools.getCircleLineIntersectionPoint(bottomLeft, topLeft, center, ball.getRadius());
-                if(intersections.size() > 0){}
-                    //Log.e("madmaze", "collide on left of " + rect.getPosition().toString() +  intersections.toString());
+                //left, top, right, bottom
+                boolean isIn[] = {false, false, false, false};
+                boolean collide = true;
 
-                intersections = GameTools.getCircleLineIntersectionPoint(topLeft, topRight, center, ball.getRadius());
-                if(intersections.size() > 0){}
-                    //Log.e("madmaze", "collide on top of " + rect.getPosition().toString() +  intersections.toString());
+                //Ball is on right of the left side of the rect
+                if (ball.getNextRight() > rect.getLeft()) {
+                    isIn[2] = true;
+                }
+                else
+                    collide = false;
+                //Inverse
+                if (ball.getNextLeft() < rect.getRight()) {
+                    isIn[0] = true;
+                }
+                else
+                    collide = false;
+                if (ball.getNextTop() < rect.getBottom()) {
+                    isIn[1] = true;
+                }
+                else
+                    collide = false;
+                if (ball.getNextBottom() > rect.getTop()) {
+                    isIn[3] = true;
+                }
+                else
+                    collide = false;
 
-                intersections = GameTools.getCircleLineIntersectionPoint(topRight, bottomRight, center, ball.getRadius());
-                if(intersections.size() > 0){}
-                    //Log.e("madmaze", "collide on right of " + rect.getPosition().toString() +  intersections.toString());
-
-                intersections = GameTools.getCircleLineIntersectionPoint(bottomRight, bottomLeft, center, ball.getRadius());
-                if(intersections.size() > 0){}
-                    //Log.e("madmaze", "collide on bottom of " + rect.getPosition().toString() +  intersections.toString());
+                //Log.e("Foufou", ""+isIn[0]+isIn[1]+isIn[2]+isIn[3]);
+                //System.out.print(isIn);
+                if(collide){
+                    Log.e("Foufou", "This fck' collide");
+                }
             }
         }
-
-        //Check if the nextStep make an intersect
-        /*for (Element element : world.getElements()) {
-            if (element == ball)    //It it's the same object, exit
-                return;
-
-            boolean intersect = false;
-
-            //Circle-Rect
-            if(element instanceof Rectangle) {
-                Rectangle rect = (Rectangle) element;
-
-                    //Check if center of circle is in the rectangle
-                    if (rect.getPosition().x < ball.getPosition().x && ball.getPosition().x < rect.getSecondPoint().x
-                            && rect.getPosition().y < ball.getPosition().y && ball.getPosition().y < rect.getSecondPoint().y){
-                        intersect = true;
-                        return;
-                    }
-                    //Check the rest of the borders intersections
-                    else if (false){
-                        //TODO
-                    }
-
-
-            }
-
-            if(intersect){
-
-            }
-
-
-        }*/
-
     }
 
     //handle collision with Goal -> triggers end of game event

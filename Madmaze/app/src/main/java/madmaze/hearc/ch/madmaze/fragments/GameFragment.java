@@ -70,7 +70,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
         world.setBallPlayer(new Ball(new PointF(100, 100), 40));
         world.setGoal(new Goal(new PointF(1700, 975), 50));
         world.addElement(new Rectangle(new PointF(300, 0), new PointF(50, 500)));
-        world.addElement(new Rectangle(new PointF(500, 700), new PointF(50, 500)));
+        //world.addElement(new Rectangle(new PointF(500, 700), new PointF(50, 500)));
 
         controller = new GameController(world);
     }
