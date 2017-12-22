@@ -55,18 +55,22 @@ public class HomeFragment extends Fragment {
         btnQuit = (Button) view.findViewById(R.id.btn_home_quit);
         //endregion BUTTONS
 
-        Log.wtf(TAG, "onCreateView: HOME FRAGMENT");
+        Log.wtf(TAG, "onCreateView: ");
 
         //region BUTTON LISTENERS
         btnStart.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view){
+                Log.wtf(TAG, "onClick: START");
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
 
-                CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_start_host_or_not)
+                CustomDialogFragment.newInstance(FragmentType.CHOOSE_LEVEL_FRAGMENT, FragmentType.SERVER_LIST_FRAGMENT, MessageType.REDIRECT_TO_TWO_FRAGMENTS, R.string.alert_dialog_start_host_or_not)
                         .show(fm, TAG);
-                //Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
+
+                /*CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_start_host_or_not)
+                        .show(fm, TAG);*/
             }
         });
 
@@ -74,6 +78,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
+                Log.wtf(TAG, "onClick: OPTIONS");
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 //shows where it goes and the message
                 CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_options)
@@ -85,6 +91,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
+                Log.wtf(TAG, "onClick: ABOUT");
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_about)
                         .show(fm, TAG);
@@ -95,6 +103,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
+                Log.wtf(TAG, "onClick: HELP");
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_help)
                         .show(fm, TAG);
@@ -105,6 +115,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View view){
+                Log.wtf(TAG, "onClick: QUIT");
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.QUIT, R.string.alert_dialog_quit)
                         .show(fm, TAG);

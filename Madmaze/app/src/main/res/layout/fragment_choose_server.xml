@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -26,13 +27,35 @@
         android:layout_height="44dp"
 
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="252dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="monospace"
         android:text="@string/btn_refresh"
         android:textAlignment="center"
         android:textSize="10sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_title"
+        app:layout_constraintVertical_bias="0.972" />
+
+    <!-- BUTTON: GO BACK TO MENU -->
+    <Button
+        android:id="@+id/btn_shserv_go_back_to_menu"
+        android:layout_width="wrap_content"
+
+        android:layout_height="44dp"
+
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="monospace"
+        android:text="@string/btn_go_back_to_menu"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_shserv_refresh"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -53,6 +53,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
     //Logic
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
 
         //Sensors
@@ -82,6 +83,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
     //Android widgets
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView: ");
         super.onCreateView(inflater, container, savedInstanceState);
         view = new GameSurfaceView(getActivity().getApplicationContext(), controller);
         view.setBackgroundColor(controller.getWorld().getBackground());       //It's not the real background but a default color screen
@@ -90,6 +92,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onResume() {
+        Log.wtf(TAG, "onResume: ");
         super.onResume();
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_GAME);
         controller.start();
@@ -97,6 +100,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onPause() {
+        Log.wtf(TAG, "onPause: ");
         super.onPause();
         sensorManager.unregisterListener(this);
         controller.pause();
