@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 
 import madmaze.hearc.ch.madmaze.enums.FragmentType;
@@ -13,6 +14,8 @@ import madmaze.hearc.ch.madmaze.enums.MessageType;
 import madmaze.hearc.ch.madmaze.fragments.FragmentFactory;
 
 public class CustomDialogFragment extends DialogFragment {
+
+    private static final String TAG = "CustomDialogFragment";
 
     public static CustomDialogFragment newInstance(FragmentType destinationA, FragmentType destinationB, MessageType type, int message){
 
@@ -49,9 +52,9 @@ public class CustomDialogFragment extends DialogFragment {
                         .setPositiveButton(R.string.alert_dialog_ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        //change fragment
-                                        dismiss();
-                                        //
+                                        Log.wtf(TAG, "onClick: OK - redirect to new fragment");
+
+                                        //go to fragment A
                                         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                                         fragmentTransaction.replace(R.id.frame_container, FragmentFactory.createFragment(FragmentType.valueOf(destinationA)));
                                         fragmentTransaction.addToBackStack(null);
@@ -62,6 +65,7 @@ public class CustomDialogFragment extends DialogFragment {
                         .setNegativeButton(R.string.alert_dialog_cancel,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
+                                        Log.wtf(TAG, "onClick: CANCEL - redirect to new fragment");
                                         dialog.cancel();
                                     }
                                 }
@@ -76,18 +80,25 @@ public class CustomDialogFragment extends DialogFragment {
                         .setPositiveButton("Yes",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        //change fragment
-                                        dismiss();
-                                        //
+                                        Log.wtf(TAG, "onClick: OK - redirect to 2 fragments: A - " + destinationA);
+
+                                        //go to fragment A
+                                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                                        fragmentTransaction.replace(R.id.frame_container, FragmentFactory.createFragment(FragmentType.valueOf(destinationA)));
+                                        fragmentTransaction.addToBackStack(null);
+                                        fragmentTransaction.commit();
                                     }
                                 }
                         )
                         .setNegativeButton("No",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        //change fragment
-                                        dismiss();
-                                        //
+                                        Log.wtf(TAG, "onClick: OK - redirect to 2 fragments: B - " + destinationB);
+                                        //go to fragment B
+                                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                                        fragmentTransaction.replace(R.id.frame_container, FragmentFactory.createFragment(FragmentType.valueOf(destinationB)));
+                                        fragmentTransaction.addToBackStack(null);
+                                        fragmentTransaction.commit();
                                     }
                                 }
                         )
@@ -101,6 +112,7 @@ public class CustomDialogFragment extends DialogFragment {
                         .setNeutralButton(R.string.alert_dialog_ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
+                                        Log.wtf(TAG, "onClick: OK - simple message ");
                                         dismiss();
                                     }
                                 }
@@ -115,6 +127,7 @@ public class CustomDialogFragment extends DialogFragment {
                         .setPositiveButton(R.string.alert_dialog_ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
+                                        Log.wtf(TAG, "onClick: OK - quit");
                                         getActivity().finish();
                                     }
                                 }
@@ -122,6 +135,7 @@ public class CustomDialogFragment extends DialogFragment {
                         .setNegativeButton(R.string.alert_dialog_cancel,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
+                                        Log.wtf(TAG, "onClick: CANCEL - quit");
                                         dialog.cancel();
                                     }
                                 }

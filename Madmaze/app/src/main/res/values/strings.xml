@@ -30,6 +30,7 @@
     <string name="alert_dialog_connect_to_server">Do you want to connect to this server?</string>
     <string name="alert_dialog_select_level">Do you want to choose this level?</string>
     <string name="alert_dialog_server_or_not">Do you want to host the server?</string>
+    <string name="alert_dialog_go_back_to_menu">Do you want to return to the menu?</string>
     <!--endregion ALERTS-->
 
     <!--region BUTTONS-->

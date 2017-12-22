@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
         btnQuit = (Button) view.findViewById(R.id.btn_home_quit);
         //endregion BUTTONS
 
-        Log.d(TAG, "onCreateView: ");
+        Log.wtf(TAG, "onCreateView: HOME FRAGMENT");
 
         //region BUTTON LISTENERS
         btnStart.setOnClickListener(new View.OnClickListener(){
@@ -66,7 +66,6 @@ public class HomeFragment extends Fragment {
 
                 CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_start_host_or_not)
                         .show(fm, TAG);
-
                 //Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
             }
         });

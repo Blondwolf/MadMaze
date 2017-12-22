@@ -186,6 +186,7 @@ public class GameController {
         if((ball.getRadius()) > distanceFromCenter){
             ball.setAcceleration(new PointF(0,0));
             ball.setSpeed(new PointF(0,0));
+            gameEnd = true;
             Log.e("collision", "handleGoalCollisions: " + distanceFromCenter);
         }
     }

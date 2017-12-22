@@ -8,6 +8,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import madmaze.hearc.ch.madmaze.R;
+import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Goal;
@@ -106,6 +110,16 @@ public class GameFragment extends Fragment implements SensorEventListener {
         float vec[] = event.values;
         float[] orientation = new float[3];
         float[] rotMat = new float[9];
+
+        //test game end
+        if(controller.isGameEnd()){
+            Log.wtf(TAG, "onSensorChanged: GAME END");
+            //change view
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, new ScoresFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
 
         SensorManager.getRotationMatrixFromVector(rotMat, vec);
         SensorManager.getOrientation(rotMat, orientation);
