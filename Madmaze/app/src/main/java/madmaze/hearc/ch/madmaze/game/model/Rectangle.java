@@ -13,18 +13,18 @@ public class Rectangle extends ElementStatic {
 
     PointF size;
 
-    public Rectangle(PointF position, PointF secondPoint) {
+    public Rectangle(PointF position, PointF size) {
         super(position);
-        this.size = secondPoint;
+        this.size = size;
     }
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
         paint.setColor(Color.RED);
-        canvas.drawRect(position.x, position.y, position.x+size.x, position.y+size.y, paint);
+        canvas.drawRect(getLeft(), getTop(), getRight(), getBottom(), paint);
     }
 
-    public PointF getSecondPoint(){
+    public PointF getSize(){
         return size;
     }
 
@@ -37,10 +37,10 @@ public class Rectangle extends ElementStatic {
     }
 
     public float getBottom(){
-        return getSecondPoint().x;
+        return getPosition().x + getSize().x;
     }
 
     public float getRight(){
-        return getSecondPoint().y;
+        return getPosition().y + getSize().y;
     }
 }

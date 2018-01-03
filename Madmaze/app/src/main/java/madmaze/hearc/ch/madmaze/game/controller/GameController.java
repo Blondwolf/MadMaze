@@ -5,8 +5,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.Log;
 
-import java.util.List;
-
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Element;
 import madmaze.hearc.ch.madmaze.game.model.Goal;
@@ -19,8 +17,12 @@ import madmaze.hearc.ch.madmaze.game.model.World;
 
 public class GameController {
 
+    //Consts
+    final static float antiStick = 0.01f;
+
     //region ATTRIBUTES
     World world;
+    Rectangle worldRect;
     int screenWidth, screenHeight;
 
     UpdateThread updateThread;
@@ -30,6 +32,7 @@ public class GameController {
 
     public GameController(World world){
         this.world = world;     //Load world
+        worldRect = new Rectangle(new PointF(0, 0), new PointF(0, 0));
         screenWidth = 0;
         screenHeight = 0;
         updateThread = new UpdateThread(this);
@@ -76,7 +79,7 @@ public class GameController {
         float antiStick = 0.01f; //Just a value when repositioning the ball to not to stick to the wall. must be taller than the minimum acceleration
 
         handleBorderCollision(ball, nextPosX, nextPosY, antiStick);
-        handleWorldCollisions(ball, nextPosX, nextPosY, antiStick);
+        handleWorldCollisions(ball);
         handleGoalCollisions(ball, goal);
     }
 
@@ -109,43 +112,16 @@ public class GameController {
     }
 
     //Maybe with more balls
-    private void handleWorldCollisions(Ball ball, float nextPosX, float nextPosY, float antiStick) {
-        //PointF center = new PointF(nextPosX, nextPosY);
+    private void handleWorldCollisions(Ball ball) {
         for (Element element : world.getElements()) {
             if(element instanceof Rectangle) {
                 Rectangle rect = (Rectangle) element;
 
-                //left, top, right, bottom
-                boolean isIn[] = {false, false, false, false};
-                boolean collide = true;
-
-                //Ball is on right of the left side of the rect
-                if (ball.getNextRight() > rect.getLeft()) {
-                    isIn[2] = true;
-                }
-                else
-                    collide = false;
-                //Inverse
-                if (ball.getNextLeft() < rect.getRight()) {
-                    isIn[0] = true;
-                }
-                else
-                    collide = false;
-                if (ball.getNextTop() < rect.getBottom()) {
-                    isIn[1] = true;
-                }
-                else
-                    collide = false;
-                if (ball.getNextBottom() > rect.getTop()) {
-                    isIn[3] = true;
-                }
-                else
-                    collide = false;
-
-                //Log.e("Foufou", ""+isIn[0]+isIn[1]+isIn[2]+isIn[3]);
-                //System.out.print(isIn);
-                if(collide){
-                    Log.e("Foufou", "This fck' collide");
+                if(GameTools.doesCollideInnerCircleRect(ball, rect)){
+                    //Probleme est ici, on doit memoriser les cotés avec lesquels l'objet movible collisione. Le stocker dans le modèle sûrement
+                    //ensuite ici on assignera les côtés collisionés. Puis tester si l'objet est en collision dans l'objet et bloquer l'acceleration directement. Comme ça pas de problème dans l'update
+                    boolean[] collidingSides = GameTools.whereCollideCircleRect(ball, rect);
+                    handleCircleRectCollision(ball, rect, collidingSides);
                 }
             }
         }
@@ -153,7 +129,6 @@ public class GameController {
 
     //handle collision with Goal -> triggers end of game event
     private void handleGoalCollisions(Ball ball, Goal goal){
-
         float x1 = ball.getPosition().x;
         float x2 = goal.getPosition().x;
         float y1 = ball.getPosition().y;
@@ -177,6 +152,7 @@ public class GameController {
 
     //Update in case screen change like reverse the phone. Normally not but it's used in init
     public void updateSurfaceInfos(int width, int height) {
+        worldRect = new Rectangle(new PointF(0, 0), new PointF(width,height));  //TODO better use set
         screenWidth = width;
         screenHeight = height;
     }
@@ -187,4 +163,33 @@ public class GameController {
     }
 
     public boolean isGameEnd(){ return gameEnd; }
+
+    //**     Private     **//
+
+
+    private void handleCircleRectCollision(Ball ball, Rectangle rect, boolean[] collidingSides){
+        //In x
+        if(collidingSides[GameTools.LEFT]){
+            ball.getPosition().x = rect.getLeft() - ball.getRadius() - antiStick;
+            ball.getSpeed().x = 0;
+            ball.getAcceleration().x = 0;
+        }
+        else if(collidingSides[GameTools.RIGHT]){
+            ball.getPosition().x = rect.getRight() + ball.getRadius() + antiStick;//Just not to stick
+            ball.getSpeed().x = 0;
+            ball.getAcceleration().x = 0;
+        }
+
+        //In y
+        if(collidingSides[GameTools.TOP]){
+            ball.getPosition().y = rect.getTop() - ball.getRadius() - antiStick;
+            ball.getSpeed().y = 0;
+            ball.getAcceleration().y = 0;
+        }
+        else if(collidingSides[GameTools.BOTTOM]){
+            ball.getPosition().y = rect.getBottom() + ball.getRadius() + antiStick;
+            ball.getSpeed().y = 0;
+            ball.getAcceleration().y = 0;
+        }
+    }
 }
