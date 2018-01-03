@@ -37,10 +37,10 @@ public class Rectangle extends ElementStatic {
     }
 
     public float getBottom(){
-        return getPosition().x + getSize().x;
+        return getPosition().y + getSize().y;
     }
 
     public float getRight(){
-        return getPosition().y + getSize().y;
+        return getPosition().x + getSize().x;
     }
 }

@@ -118,10 +118,9 @@ public class GameController {
                 Rectangle rect = (Rectangle) element;
 
                 if(GameTools.doesCollideInnerCircleRect(ball, rect)){
-                    //Probleme est ici, on doit memoriser les cotés avec lesquels l'objet movible collisione. Le stocker dans le modèle sûrement
-                    //ensuite ici on assignera les côtés collisionés. Puis tester si l'objet est en collision dans l'objet et bloquer l'acceleration directement. Comme ça pas de problème dans l'update
-                    boolean[] collidingSides = GameTools.whereCollideCircleRect(ball, rect);
-                    handleCircleRectCollision(ball, rect, collidingSides);
+                    Collision collision = new Collision(rect, GameTools.whereCollideCircleRect(ball, rect));
+                    ball.addCollision(collision);
+                    //handleCircleRectCollision(ball, rect);
                 }
             }
         }
@@ -147,7 +146,7 @@ public class GameController {
 
     //When the sens value change
     public void movePlayer(float x, float y) {
-        world.getBallPlayer().getAcceleration().set(x, y);
+        world.getBallPlayer().setPlayerAcceleration(x, y);
     }
 
     //Update in case screen change like reverse the phone. Normally not but it's used in init
@@ -166,8 +165,9 @@ public class GameController {
 
     //**     Private     **//
 
+    /*private void handleCircleRectCollision(Ball ball, Rectangle rect){
+        boolean[] collidingSides = ball.getCollisions();
 
-    private void handleCircleRectCollision(Ball ball, Rectangle rect, boolean[] collidingSides){
         //In x
         if(collidingSides[GameTools.LEFT]){
             ball.getPosition().x = rect.getLeft() - ball.getRadius() - antiStick;
@@ -191,5 +191,5 @@ public class GameController {
             ball.getSpeed().y = 0;
             ball.getAcceleration().y = 0;
         }
-    }
+    }*/
 }
