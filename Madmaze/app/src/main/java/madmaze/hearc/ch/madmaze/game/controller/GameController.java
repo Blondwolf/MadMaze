@@ -114,63 +114,59 @@ public class GameController {
         PointF center = new PointF(nextPosX, nextPosY);
         for (Element element : world.getElements()) {
             if(element instanceof Rectangle) {
+
                 Rectangle rect = (Rectangle) element;
                 PointF topLeft = new PointF(rect.getPosition().x, rect.getPosition().y);
                 PointF bottomLeft = new PointF(rect.getPosition().x, rect.getPosition().y + rect.getSecondPoint().y);
                 PointF topRight = new PointF(rect.getPosition().x + rect.getSecondPoint().x, rect.getPosition().y);
                 PointF bottomRight = new PointF(rect.getPosition().x + rect.getSecondPoint().x, rect.getPosition().y + rect.getSecondPoint().y);
 
-                List<PointF> intersections;
-                intersections = GameTools.getCircleLineIntersectionPoint(bottomLeft, topLeft, center, ball.getRadius());
-                if(intersections.size() > 0){}
-                    //Log.e("madmaze", "collide on left of " + rect.getPosition().toString() +  intersections.toString());
-
-                intersections = GameTools.getCircleLineIntersectionPoint(topLeft, topRight, center, ball.getRadius());
-                if(intersections.size() > 0){}
-                    //Log.e("madmaze", "collide on top of " + rect.getPosition().toString() +  intersections.toString());
-
-                intersections = GameTools.getCircleLineIntersectionPoint(topRight, bottomRight, center, ball.getRadius());
-                if(intersections.size() > 0){}
-                    //Log.e("madmaze", "collide on right of " + rect.getPosition().toString() +  intersections.toString());
-
-                intersections = GameTools.getCircleLineIntersectionPoint(bottomRight, bottomLeft, center, ball.getRadius());
-                if(intersections.size() > 0){}
-                    //Log.e("madmaze", "collide on bottom of " + rect.getPosition().toString() +  intersections.toString());
+                // LEFT
+                if(GameTools.checkCollision(topLeft, bottomLeft, center, ball.getRadius()) &&
+                        center.y < bottomLeft.y &&
+                        center.y + ball.getRadius() > topLeft.y &&
+                        ball.getAcceleration().x > 0)
+                {
+                    ball.getPosition().x = topLeft.x - ball.getRadius() - antiStick;
+                    ball.getSpeed().x = 0;
+                    ball.getAcceleration().x = 0;
+                    Log.e("madmaze", "collide on left of " + rect.getPosition().toString());
+                }
+                //RIGHT
+                if(GameTools.checkCollision(topRight, bottomRight, center, ball.getRadius()) &&
+                        center.y < bottomRight.y &&
+                        center.y + ball.getRadius() > topRight.y &&
+                        ball.getAcceleration().x < 0)
+                {
+                    ball.getPosition().x = topRight.x + ball.getRadius() + antiStick;
+                    ball.getSpeed().x = 0;
+                    ball.getAcceleration().x = 0;
+                    Log.e("madmaze", "collide on right of " + rect.getPosition().toString());
+                }
+                //TOP
+                if(GameTools.checkCollision(topLeft, topRight, center, ball.getRadius()) &&
+                        center.x > topLeft.x &&
+                        center.x + ball.getRadius() < topRight.x &&
+                        ball.getAcceleration().y > 0)
+                {
+                    ball.getPosition().y = topRight.y - ball.getRadius() - antiStick;
+                    ball.getSpeed().y = 0;
+                    ball.getAcceleration().y = 0;
+                    Log.e("madmaze", "collide on top of " + rect.getPosition().toString());
+                }
+                //BOTTOM
+                if(GameTools.checkCollision(bottomLeft, bottomRight, center, ball.getRadius()) &&
+                        center.x > bottomLeft.x &&
+                        center.x + ball.getRadius() < bottomRight.x &&
+                        ball.getAcceleration().y < 0)
+                {
+                    ball.getPosition().y = bottomRight.y + ball.getRadius() + antiStick;
+                    ball.getSpeed().y = 0;
+                    ball.getAcceleration().y = 0;
+                    Log.e("madmaze", "collide on top of " + rect.getPosition().toString());
+                }
             }
         }
-
-        //Check if the nextStep make an intersect
-        /*for (Element element : world.getElements()) {
-            if (element == ball)    //It it's the same object, exit
-                return;
-
-            boolean intersect = false;
-
-            //Circle-Rect
-            if(element instanceof Rectangle) {
-                Rectangle rect = (Rectangle) element;
-
-                    //Check if center of circle is in the rectangle
-                    if (rect.getPosition().x < ball.getPosition().x && ball.getPosition().x < rect.getSecondPoint().x
-                            && rect.getPosition().y < ball.getPosition().y && ball.getPosition().y < rect.getSecondPoint().y){
-                        intersect = true;
-                        return;
-                    }
-                    //Check the rest of the borders intersections
-                    else if (false){
-                        //TODO
-                    }
-
-
-            }
-
-            if(intersect){
-
-            }
-
-
-        }*/
-
     }
 
     //handle collision with Goal -> triggers end of game event
