@@ -5,50 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TITLE -->
-    <TextView
-        android:id="@+id/text_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_scores"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
-
-    <!-- TITLE: BEST SCORE -->
-    <TextView
-        android:id="@+id/text__bestScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:text="@string/title_best_scores"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
-
-    <!-- TITLE: CURRENT SCORE -->
-    <TextView
-        android:id="@+id/text__currentScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
-        android:text="@string/title_current_score"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
-
-
     <!--region BUTTONS-->
     <!-- BACK TO MENU -->
     <Button
         android:id="@+id/btn_scores_backToMenu"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
 
         android:layout_height="44dp"
-
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -65,10 +30,11 @@
     <!-- REDO -->
     <Button
         android:id="@+id/btn_scores_redo"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
 
         android:layout_height="44dp"
-
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:layout_marginBottom="8dp"
         android:fontFamily="monospace"
         android:text="@string/btn_redo"
@@ -82,10 +48,11 @@
     <!-- QUIT -->
     <Button
         android:id="@+id/btn_scores_quit"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
 
         android:layout_height="44dp"
-
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -101,5 +68,68 @@
 
     <!--endregion BUTTONS -->
 
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:background="@drawable/wptest"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!--region TEXT -->
+    <!-- TITLE: BEST SCORE -->
+    <TextView
+        android:id="@+id/text__bestScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:text="@string/title_best_scores"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/madmaze_logo" />
+
+    <!-- TITLE: CURRENT SCORE -->
+    <TextView
+        android:id="@+id/text__currentScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        android:text="@string/title_current_score"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/madmaze_logo" />
+
+    <!--endregion TEXT -->
+
+    <!-- TITLE -->
+    <ImageView
+        android:id="@+id/madmaze_logo"
+        android:layout_width="393dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/madmaze"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/scores_logo"
+        android:layout_width="119dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/scores"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/madmaze_logo" />
 
 </android.support.constraint.ConstraintLayout>

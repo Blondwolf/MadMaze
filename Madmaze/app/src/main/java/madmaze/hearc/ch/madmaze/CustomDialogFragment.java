@@ -71,6 +71,7 @@ public class CustomDialogFragment extends DialogFragment {
                                 }
                         )
                         .show();
+
                 //endregion A
             case REDIRECT_TO_TWO_FRAGMENTS:
                 //region B

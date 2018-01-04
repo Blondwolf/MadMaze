@@ -5,18 +5,6 @@
     android:layout_height="match_parent"
     tools:context="madmaze.hearc.ch.madmaze.fragments.HomeFragment">
 
-    <!-- TITLE -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_home"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
-
     <!--region BUTTONS-->
     <!-- START -->
     <Button
@@ -25,7 +13,8 @@
 
         android:layout_height="40dp"
         android:fontFamily="monospace"
-
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:text="@string/btn_startGame"
         android:textAlignment="center"
 
@@ -47,6 +36,8 @@
         android:layout_marginTop="8dp"
 
         android:fontFamily="monospace"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:text="@string/btn_options"
 
         android:textAlignment="center"
@@ -67,6 +58,8 @@
         android:layout_marginTop="8dp"
 
         android:fontFamily="monospace"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:text="@string/btn_help"
 
         android:textAlignment="center"
@@ -87,7 +80,8 @@
         android:layout_marginTop="8dp"
 
         android:fontFamily="monospace"
-
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:text="@string/btn_about"
 
         android:textAlignment="center"
@@ -108,7 +102,8 @@
 
         android:layout_marginTop="8dp"
         android:fontFamily="monospace"
-
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:text="@string/btn_quit"
         android:textAlignment="center"
         android:textSize="10sp"
@@ -120,5 +115,41 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <!--endregion BUTTONS-->
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:background="@drawable/wptest"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!-- TITLE -->
+    <ImageView
+        android:id="@+id/madmaze_logo"
+        android:layout_width="393dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/madmaze"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/home_logo"
+        android:layout_width="119dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/home"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/madmaze_logo" />
 
 </android.support.constraint.ConstraintLayout>
