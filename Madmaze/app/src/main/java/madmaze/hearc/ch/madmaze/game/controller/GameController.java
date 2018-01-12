@@ -115,16 +115,15 @@ public class GameController {
     private void handleWorldCollisions(Ball ball) {
         for (Element element : world.getElements()) {
             if(element instanceof Rectangle) {
-
                 Rectangle rect = (Rectangle) element;
-<<<<<<< HEAD
 
-                if(GameTools.doesCollideInnerCircleRect(ball, rect)){
+                if(GameTools.doesCollideInnerCircleRect(ball, rect)) {
                     Collision collision = new Collision(rect, GameTools.whereCollideCircleRect(ball, rect));
                     ball.addCollision(collision);
                     //handleCircleRectCollision(ball, rect);
-=======
-                PointF topLeft = new PointF(rect.getPosition().x, rect.getPosition().y);
+                }
+
+                /*PointF topLeft = new PointF(rect.getPosition().x, rect.getPosition().y);
                 PointF bottomLeft = new PointF(rect.getPosition().x, rect.getPosition().y + rect.getSecondPoint().y);
                 PointF topRight = new PointF(rect.getPosition().x + rect.getSecondPoint().x, rect.getPosition().y);
                 PointF bottomRight = new PointF(rect.getPosition().x + rect.getSecondPoint().x, rect.getPosition().y + rect.getSecondPoint().y);
@@ -172,8 +171,7 @@ public class GameController {
                     ball.getSpeed().y = 0;
                     ball.getAcceleration().y = 0;
                     Log.e("madmaze", "collide on top of " + rect.getPosition().toString());
->>>>>>> 1c8c4788d8ec0b87e33e48b19499fd870a0b8606
-                }
+                }*/
             }
         }
     }
