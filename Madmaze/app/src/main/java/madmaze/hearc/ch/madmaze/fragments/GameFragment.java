@@ -130,6 +130,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
             Fragment fragment = new ScoresFragment();
 
             //Create bundle to send to ScoreFragment
+            //https://stackoverflow.com/questions/36041545/send-data-to-fragment-with-fragmenttransaction
             Bundle arguments = new Bundle();
             arguments.putString("LevelName", controller.getWorld().getName());
             fragment.setArguments(arguments);

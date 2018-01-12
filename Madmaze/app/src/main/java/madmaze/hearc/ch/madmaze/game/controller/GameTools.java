@@ -23,7 +23,11 @@ public class GameTools {
     public static float ANTI_STICK = 0.001f;
 
     /***
-     * Return a boolean => if the ball and the circle collides
+     * Check if the ball and the circle collides
+     *
+     * @param ball the movable ball
+     * @param rect the static rect
+     * @return true if ball and rect collides
      *
      * Source : //https://openclassrooms.com/forum/sujet/detection-de-collisions-45792
      */
@@ -52,8 +56,12 @@ public class GameTools {
     }
 
     /***
-     * Return the sides who collides with the circle (between 0 and 2)
+     * Check wich sides of the rect ball collides
      * This function may not be called if doesCollideInnerCircleRect return false
+     *
+     * @param ball The movable ball
+     * @param rect The static rect
+     * @return the sides who collides with the circle (between 0 and 2)
      *
      * Corner check source : //https://gamedev.stackexchange.com/questions/17502/how-to-deal-with-corner-collisions-in-2d
      */
