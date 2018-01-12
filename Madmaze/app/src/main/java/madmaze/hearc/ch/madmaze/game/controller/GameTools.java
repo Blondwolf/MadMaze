@@ -22,25 +22,12 @@ public class GameTools {
     public final static int BOTTOM = 3;
     public static float ANTI_STICK = 0.001f;
 
+    /***
+     * Return a boolean => if the ball and the circle collides
+     *
+     * Source : //https://openclassrooms.com/forum/sujet/detection-de-collisions-45792
+     */
     public static boolean doesCollideInnerCircleRect(Ball ball, Rectangle rect) {
-
-        //V1
-        /*boolean collides;
-
-        collides = ball.getNextLeft() < rect.getRight() &&
-                ball.getNextTop() < rect.getBottom()    &&
-                ball.getNextRight() > rect.getLeft()    &&
-                ball.getNextBottom() > rect.getTop();
-
-        //Log.e("Foufou", "Right "+ball.getNextLeft() + "<" + rect.getRight());
-        //Log.e("Foufou", "Bottom "+ball.getNextTop() + "<" + rect.getBottom());
-        if(collides)
-            Log.e("Foufou", "Collides");
-
-        return collides;*/
-
-        //V2
-        //https://openclassrooms.com/forum/sujet/detection-de-collisions-45792
         PointF circleDistance = new PointF(0.0f, 0.0f);
         circleDistance.x = abs(ball.getNextX() - rect.getPosition().x - rect.getSize().x / 2);
         circleDistance.y = abs(ball.getNextY() - rect.getPosition().y - rect.getSize().y / 2);
@@ -64,55 +51,17 @@ public class GameTools {
         return (cornerDistance_sq <= pow(ball.getRadius(), 2));
     }
 
-    //Return the side wich collides
+    /***
+     * Return the sides who collides with the circle (between 0 and 2)
+     * This function may not be called if doesCollideInnerCircleRect return false
+     *
+     * Corner check source : //https://gamedev.stackexchange.com/questions/17502/how-to-deal-with-corner-collisions-in-2d
+     */
     public static boolean[] whereCollideCircleRect(Ball ball, Rectangle rect) {
+        //Init
         boolean[] collidingSides = {false, false, false, false};
 
-        //Sides
-        /*if(ball.getPosition().x > rect.getRight())
-            collidingSides[RIGHT] = true;
-        if(ball.getPosition().y > rect.getBottom())
-            collidingSides[BOTTOM] = true;
-        if(ball.getPosition().x < rect.getLeft())
-            collidingSides[LEFT] = true;
-        if(ball.getPosition().y < rect.getTop())
-            collidingSides[TOP] = true;*/
-
-        //V2
-        /*PointF circleDistance = new PointF(0.0f, 0.0f);
-        circleDistance.x = rect.getPosition().x + rect.getSize().x/2 - ball.getNextX();
-        circleDistance.y = rect.getPosition().y + rect.getSize().y/2 - ball.getNextY();
-
-        if(Math.abs(circleDistance.x) < rect.getSize().x/2 + ball.getRadius()) {
-            if(circleDistance.x > 0)
-                collidingSides[RIGHT] = true;
-            else
-                collidingSides[LEFT] = true;
-        }
-        if(Math.abs(circleDistance.y) < rect.getSize().y/2 + ball.getRadius()) {
-            if(circleDistance.y > 0)
-                collidingSides[TOP] = true;
-            else
-                collidingSides[BOTTOM] = true;
-        }*/
-
-        /*
-        //V3
-        PointF circleDistance = new PointF(0.0f, 0.0f);
-        circleDistance.x = ball.getNextX() - rect.getPosition().x - rect.getSize().x/2;
-        circleDistance.y = ball.getNextY() - rect.getPosition().y - rect.getSize().y/2;
-
-        if(circleDistance.x >= - (rect.getSize().x/2 + ball.getRadius()))
-            collidingSides[RIGHT] = true;
-        else if(circleDistance.x <= rect.getSize().x/2 + ball.getRadius())
-            collidingSides[LEFT] = true;
-
-        if(circleDistance.y >= - (rect.getSize().y/2 + ball.getRadius()))
-            collidingSides[TOP] = true;
-        else if(circleDistance.y <= rect.getSize().y/2 + ball.getRadius())
-            collidingSides[BOTTOM] = true;*/
-
-        //V4
+        //Check if a side of the ball is in the rect
         if (ball.getNextRight() > rect.getRight())
             collidingSides[RIGHT] = true;
         if (ball.getNextBottom() > rect.getBottom())
@@ -122,57 +71,61 @@ public class GameTools {
         if (ball.getNextTop() < rect.getTop())
             collidingSides[TOP] = true;
 
-        //Corners       //https://gamedev.stackexchange.com/questions/17502/how-to-deal-with-corner-collisions-in-2d
-        if (collidingSides[TOP] && collidingSides[RIGHT]) {
-            float timeXCollision = (ball.getLeft() - rect.getRight()) / -ball.getSpeed().x;
-            float timeYCollision = (rect.getTop() - ball.getBottom()) / ball.getSpeed().y;
+        //Corners
+        {
+            if (collidingSides[TOP] && collidingSides[RIGHT]) {
+                float timeXCollision = (ball.getLeft() - rect.getRight()) / -ball.getSpeed().x;
+                float timeYCollision = (rect.getTop() - ball.getBottom()) / ball.getSpeed().y;
 
-            if (timeXCollision < timeYCollision)
-                collidingSides[TOP] = false;
-            else
-                collidingSides[RIGHT] = false;
+                if (timeXCollision < timeYCollision)
+                    collidingSides[TOP] = false;
+                else
+                    collidingSides[RIGHT] = false;
+            }
+
+            if (collidingSides[RIGHT] && collidingSides[BOTTOM]) {
+                float timeXCollision = (ball.getLeft() - rect.getRight()) / -ball.getSpeed().x;
+                float timeYCollision = (rect.getBottom() - ball.getTop()) / ball.getSpeed().y;
+
+                if (timeXCollision < timeYCollision)
+                    collidingSides[BOTTOM] = false;
+                else
+                    collidingSides[RIGHT] = false;
+            }
+
+            if (collidingSides[BOTTOM] && collidingSides[LEFT]) {
+                float timeXCollision = (ball.getRight() - rect.getLeft()) / -ball.getSpeed().x;
+                float timeYCollision = (rect.getBottom() - ball.getTop()) / ball.getSpeed().y;
+
+                if (timeXCollision < timeYCollision)
+                    collidingSides[BOTTOM] = false;
+                else
+                    collidingSides[LEFT] = false;
+            }
+
+            if (collidingSides[LEFT] && collidingSides[TOP]) {
+                float timeXCollision = (ball.getRight() - rect.getLeft()) / -ball.getSpeed().x;
+                float timeYCollision = (rect.getTop() - ball.getBottom()) / ball.getSpeed().y;
+
+                if (timeXCollision < timeYCollision)
+                    collidingSides[TOP] = false;
+                else
+                    collidingSides[LEFT] = false;
+            }
         }
 
-        if (collidingSides[RIGHT] && collidingSides[BOTTOM]) {
-            float timeXCollision = (ball.getLeft() - rect.getRight()) / -ball.getSpeed().x;
-            float timeYCollision = (rect.getBottom() - ball.getTop()) / ball.getSpeed().y;
-
-            if (timeXCollision < timeYCollision)
-                collidingSides[BOTTOM] = false;
-            else
-                collidingSides[RIGHT] = false;
-        }
-
-        if (collidingSides[BOTTOM] && collidingSides[LEFT]) {
-            float timeXCollision = (ball.getRight() - rect.getLeft()) / -ball.getSpeed().x;
-            float timeYCollision = (rect.getBottom() - ball.getTop()) / ball.getSpeed().y;
-
-            if (timeXCollision < timeYCollision)
-                collidingSides[BOTTOM] = false;
-            else
-                collidingSides[LEFT] = false;
-        }
-
-        if (collidingSides[LEFT] && collidingSides[TOP]) {
-            float timeXCollision = (ball.getRight() - rect.getLeft()) / -ball.getSpeed().x;
-            float timeYCollision = (rect.getTop() - ball.getBottom()) / ball.getSpeed().y;
-
-            if (timeXCollision < timeYCollision)
-                collidingSides[TOP] = false;
-            else
-                collidingSides[LEFT] = false;
-        }
-
+        //Log and verification
         String msg = "";
         for (int i = 0; i < collidingSides.length; i++) {
             if (collidingSides[i])
                 msg += i;
         }
+        Log.d("Collision", "Colliding sides count : "+msg);
 
         return collidingSides;
     }
 
-
+    //Unused in this version but may be usefull to improve
     public static boolean checkCollision(PointF P1, PointF P2, PointF C, float r) {
         /*
         * link: https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
