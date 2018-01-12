@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TITLE -->
-    <TextView
-        android:id="@+id/text_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_sever_list"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
-
     <!--TODO: display servers and when clicked => pop-up OK-CANCEL -->
 
+    <!--region BUTTONS -->
     <!-- BUTTON: REFRESH -->
     <Button
         android:id="@+id/btn_shserv_refresh"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
 
         android:layout_height="44dp"
-
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
         android:fontFamily="monospace"
         android:text="@string/btn_refresh"
         android:textAlignment="center"
@@ -33,6 +25,65 @@
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!-- BUTTON: GO BACK TO MENU -->
+    <Button
+        android:id="@+id/btn_shserv_go_back_to_menu"
+        android:layout_width="120dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="8dp"
+
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryLight"
+        android:fontFamily="monospace"
+        android:text="@string/btn_go_back_to_menu"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_shserv_refresh" />
+
+    <!--endregion BUTTONS -->
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="false"
+        android:background="@drawable/wptest"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!-- TITLE -->
+    <ImageView
+        android:id="@+id/madmaze_logo"
+        android:layout_width="393dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/madmaze"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/server_logo"
+        android:layout_width="119dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/servers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/madmaze_logo" />
 
 </android.support.constraint.ConstraintLayout>

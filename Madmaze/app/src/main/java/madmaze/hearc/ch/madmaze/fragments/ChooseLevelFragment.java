@@ -59,10 +59,11 @@ public class ChooseLevelFragment extends Fragment {
 
             @Override
             public void onClick(View view){
+                Log.wtf(TAG, "onClick: BACK TO MENU");
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                Toast.makeText(getActivity(), "Going back to HomeFragment", Toast.LENGTH_SHORT).show();
-                //
-                CustomDialogFragment.newInstance(FragmentType.HOME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_options)
+
+                CustomDialogFragment.newInstance(FragmentType.HOME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_go_back_to_menu)
                         .show(fm, TAG);
             }
         });
@@ -71,9 +72,11 @@ public class ChooseLevelFragment extends Fragment {
 
             @Override
             public void onClick(View view){
+                Log.wtf(TAG, "onClick: SELECT LEVEL");
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                //shows where it goes and the message
-                CustomDialogFragment.newInstance(FragmentType.NONE, FragmentType.NONE, MessageType.SIMPLE_MESSAGE, R.string.alert_dialog_select_level)
+
+                CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_select_level)
                         .show(fm, TAG);
             }
         });
@@ -82,9 +85,10 @@ public class ChooseLevelFragment extends Fragment {
 
             @Override
             public void onClick(View view){
+                Log.wtf(TAG, "onClick: RANDOM LEVEL");
                 //choose level randomly
                 Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
-                //
+                //no dialog here
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.frame_container, new GameFragment());
                 fragmentTransaction.addToBackStack(null);

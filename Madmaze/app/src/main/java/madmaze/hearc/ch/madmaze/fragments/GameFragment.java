@@ -8,6 +8,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import madmaze.hearc.ch.madmaze.R;
+import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Goal;
@@ -49,6 +53,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
     //Logic
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
 
         //Sensors
@@ -69,8 +74,9 @@ public class GameFragment extends Fragment implements SensorEventListener {
         //should retrieve position dynamically from canvas -> PointF(world.posx - a, world.posy - b)
         world.setBallPlayer(new Ball(new PointF(100, 100), 40));
         world.setGoal(new Goal(new PointF(1700, 975), 50));
-        world.addElement(new Rectangle(new PointF(300, 100), new PointF(20, 500)));
-        //world.addElement(new Rectangle(new PointF(500, 700), new PointF(50, 500)));
+
+        world.addElement(new Rectangle(new PointF(300, 0), new PointF(200, 500)));
+        world.addElement(new Rectangle(new PointF(500, 700), new PointF(200, 500)));
 
         controller = new GameController(world);
     }
@@ -78,6 +84,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
     //Android widgets
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.wtf(TAG, "onCreateView: ");
         super.onCreateView(inflater, container, savedInstanceState);
         view = new GameSurfaceView(getActivity().getApplicationContext(), controller);
         view.setBackgroundColor(controller.getWorld().getBackground());       //It's not the real background but a default color screen
@@ -86,6 +93,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onResume() {
+        Log.wtf(TAG, "onResume: ");
         super.onResume();
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_GAME);
         controller.start();
@@ -93,6 +101,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onPause() {
+        Log.wtf(TAG, "onPause: ");
         super.onPause();
         sensorManager.unregisterListener(this);
         controller.pause();
@@ -106,6 +115,16 @@ public class GameFragment extends Fragment implements SensorEventListener {
         float vec[] = event.values;
         float[] orientation = new float[3];
         float[] rotMat = new float[9];
+
+        //test game end
+        if(controller.isGameEnd()){
+            Log.wtf(TAG, "onSensorChanged: GAME END");
+            //change view
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_container, new ScoresFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
 
         SensorManager.getRotationMatrixFromVector(rotMat, vec);
         SensorManager.getOrientation(rotMat, orientation);
