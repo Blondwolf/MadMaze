@@ -31,6 +31,10 @@ public class World {
         this("Level test", new ArrayList<Element>());
     }
 
+    public World(String name){
+        this(name, new ArrayList<Element>());
+    }
+
     public World(String name, List<Element> elements){
         this.name = name;
         this.elements = elements;
@@ -90,5 +94,9 @@ public class World {
     //Need to change to a drawable
     public int getBackground() {
         return backgroundColor;
+    }
+
+    public String getName() {
+        return name;
     }
 }

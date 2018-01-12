@@ -169,8 +169,6 @@ public class GameTools {
                 msg += i;
         }
 
-        Log.e("Foufou", msg);
-
         return collidingSides;
     }
 
