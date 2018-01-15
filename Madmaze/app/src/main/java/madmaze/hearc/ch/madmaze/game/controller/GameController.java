@@ -28,7 +28,7 @@ public class GameController {
     UpdateThread updateThread;
 
     boolean gameEnd = false;
-    //region ATTRIBUTES
+    //endregion ATTRIBUTES
 
     public GameController(World world){
         this.world = world;     //Load world

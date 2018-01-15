@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import in.goodiebag.carouselpicker.CarouselPicker;
 import madmaze.hearc.ch.madmaze.CustomDialogFragment;
 import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.enums.MessageType;
@@ -36,15 +41,49 @@ public class ChooseLevelFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_choose_level, container, false);
+
+        //region CAROUSEL
+        //https://github.com/GoodieBag/CarouselPicker
+        //https://developer.android.com/training/material/lists-cards.html#RecyclerView
+        CarouselPicker carouselPicker = (CarouselPicker) view.findViewById(R.id.carousel);
+        carouselPicker.setVisibility(View.VISIBLE);
+
+        //populate picker with map images
+        List<CarouselPicker.PickerItem> imageItems = new ArrayList<>();
+        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.map1));
+        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.map2));
+        imageItems.add(new CarouselPicker.DrawableItem(R.drawable.map3));
+
+
+        //adapter
+        CarouselPicker.CarouselViewAdapter adapter = new CarouselPicker.CarouselViewAdapter(view.getContext(), imageItems, 0);
+        carouselPicker.setAdapter(adapter);
+
+        carouselPicker.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //position of the selected item
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        //endregion CAROUSEL
+
 
         //region BUTTONS
         btnBackToMenu = (Button) view.findViewById(R.id.btn_chlvl_backToMenu);

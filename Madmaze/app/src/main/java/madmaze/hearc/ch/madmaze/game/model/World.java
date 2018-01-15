@@ -35,7 +35,7 @@ public class World {
         this.name = name;
         this.elements = elements;
 
-        this.backgroundColor = Color.WHITE;//Need to change to a drawable
+        this.backgroundColor = Color.rgb(53, 209, 224);//Need to change to a drawable
     }
 
     //Logic

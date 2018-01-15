@@ -20,6 +20,7 @@ import java.math.RoundingMode;
 import madmaze.hearc.ch.madmaze.R;
 import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
+import madmaze.hearc.ch.madmaze.game.controller.WorldManager;
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Goal;
 import madmaze.hearc.ch.madmaze.game.model.Rectangle;
@@ -70,15 +71,9 @@ public class GameFragment extends Fragment implements SensorEventListener {
         //This way we can send to the world the screen size from the surfaceview
         //and update it in the surfaceview too
 
-        World world = new World();
-        //should retrieve position dynamically from canvas -> PointF(world.posx - a, world.posy - b)
-        world.setBallPlayer(new Ball(new PointF(100, 100), 40));
-        world.setGoal(new Goal(new PointF(1700, 975), 50));
+        WorldManager wm = new WorldManager();
 
-        world.addElement(new Rectangle(new PointF(300, 0), new PointF(200, 500)));
-        world.addElement(new Rectangle(new PointF(500, 700), new PointF(200, 500)));
-
-        controller = new GameController(world);
+        controller = new GameController(wm.getWorld(3));
     }
 
     //Android widgets
