@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import madmaze.hearc.ch.madmaze.CustomDialogFragment;
 import madmaze.hearc.ch.madmaze.R;
 import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.enums.MessageType;
+import madmaze.hearc.ch.madmaze.game.controller.IOTools;
 
 public class ScoresFragment extends Fragment {
 
@@ -24,6 +26,8 @@ public class ScoresFragment extends Fragment {
     private Button btnRedo;
     private Button btnQuit;
     //endregion ATTRIBUTES
+
+    private int score;
 
     public ScoresFragment(){
         // Required empty public constructor
@@ -38,14 +42,23 @@ public class ScoresFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle arguments = getArguments();
+        String levelName = arguments.getString("LevelName", "");
+        score = IOTools.read(getActivity().getApplicationContext(), levelName);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.wtf(TAG, "onCreateView: ");
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_scores, container, false);
+
+        //Find text field and change score text
+        TextView textScore = (TextView) view.findViewById(R.id.text__bestScore);
+        textScore.setText(getString(R.string.title_best_scores) + ":" + score);
 
         //region BUTTONS
         btnGoBackToMenu = (Button) view.findViewById(R.id.btn_scores_backToMenu);

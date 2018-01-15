@@ -28,6 +28,8 @@ public class GameController {
     UpdateThread updateThread;
 
     boolean gameEnd = false;
+    int score;
+
     //endregion ATTRIBUTES
 
     public GameController(World world){
@@ -35,7 +37,10 @@ public class GameController {
         worldRect = new Rectangle(new PointF(0, 0), new PointF(0, 0));
         screenWidth = 0;
         screenHeight = 0;
+
         updateThread = new UpdateThread(this);
+
+        score = 0;
     }
 
     //**    Main loop   **//
@@ -51,6 +56,8 @@ public class GameController {
         handleCollisions();
 
         world.update(deltaTime);
+
+        score++;
     }
 
     public void draw(Canvas canvas, Paint paint) {
@@ -188,7 +195,9 @@ public class GameController {
         if((ball.getRadius()) > distanceFromCenter){
             ball.setAcceleration(new PointF(0,0));
             ball.setSpeed(new PointF(0,0));
+
             gameEnd = true;
+
             Log.e("collision", "handleGoalCollisions: " + distanceFromCenter);
         }
     }
@@ -213,6 +222,10 @@ public class GameController {
     }
 
     public boolean isGameEnd(){ return gameEnd; }
+
+    public int getScore() {
+        return score;
+    }
 
     //**     Private     **//
 

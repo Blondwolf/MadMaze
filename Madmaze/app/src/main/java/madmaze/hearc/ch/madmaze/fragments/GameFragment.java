@@ -21,6 +21,7 @@ import madmaze.hearc.ch.madmaze.R;
 import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 import madmaze.hearc.ch.madmaze.game.controller.WorldManager;
+import madmaze.hearc.ch.madmaze.game.controller.IOTools;
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Goal;
 import madmaze.hearc.ch.madmaze.game.model.Rectangle;
@@ -114,9 +115,24 @@ public class GameFragment extends Fragment implements SensorEventListener {
         //test game end
         if(controller.isGameEnd()){
             Log.wtf(TAG, "onSensorChanged: GAME END");
-            //change view
+
+            int oldScore = IOTools.read(getActivity().getApplicationContext(), controller.getWorld().getName());
+            int newScore = controller.getScore();
+            if(newScore < oldScore)
+                IOTools.write(getActivity().getApplicationContext(), controller.getWorld().getName(), newScore);
+
+            //Init Fragment
+            Fragment fragment = new ScoresFragment();
+
+            //Create bundle to send to ScoreFragment
+            //https://stackoverflow.com/questions/36041545/send-data-to-fragment-with-fragmenttransaction
+            Bundle arguments = new Bundle();
+            arguments.putString("LevelName", controller.getWorld().getName());
+            fragment.setArguments(arguments);
+
+            //Change view
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_container, new ScoresFragment());
+            fragmentTransaction.replace(R.id.frame_container, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
