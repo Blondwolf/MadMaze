@@ -129,56 +129,6 @@ public class GameController {
                     ball.addCollision(collision);
                     //handleCircleRectCollision(ball, rect);
                 }
-
-                /*PointF topLeft = new PointF(rect.getPosition().x, rect.getPosition().y);
-                PointF bottomLeft = new PointF(rect.getPosition().x, rect.getPosition().y + rect.getSecondPoint().y);
-                PointF topRight = new PointF(rect.getPosition().x + rect.getSecondPoint().x, rect.getPosition().y);
-                PointF bottomRight = new PointF(rect.getPosition().x + rect.getSecondPoint().x, rect.getPosition().y + rect.getSecondPoint().y);
-
-                // LEFT
-                if(GameTools.checkCollision(topLeft, bottomLeft, center, ball.getRadius()) &&
-                        center.y < bottomLeft.y &&
-                        center.y + ball.getRadius() > topLeft.y &&
-                        ball.getAcceleration().x > 0)
-                {
-                    ball.getPosition().x = topLeft.x - ball.getRadius() - antiStick;
-                    ball.getSpeed().x = 0;
-                    ball.getAcceleration().x = 0;
-                    Log.e("madmaze", "collide on left of " + rect.getPosition().toString());
-                }
-                //RIGHT
-                if(GameTools.checkCollision(topRight, bottomRight, center, ball.getRadius()) &&
-                        center.y < bottomRight.y &&
-                        center.y + ball.getRadius() > topRight.y &&
-                        ball.getAcceleration().x < 0)
-                {
-                    ball.getPosition().x = topRight.x + ball.getRadius() + antiStick;
-                    ball.getSpeed().x = 0;
-                    ball.getAcceleration().x = 0;
-                    Log.e("madmaze", "collide on right of " + rect.getPosition().toString());
-                }
-                //TOP
-                if(GameTools.checkCollision(topLeft, topRight, center, ball.getRadius()) &&
-                        center.x > topLeft.x &&
-                        center.x + ball.getRadius() < topRight.x &&
-                        ball.getAcceleration().y > 0)
-                {
-                    ball.getPosition().y = topRight.y - ball.getRadius() - antiStick;
-                    ball.getSpeed().y = 0;
-                    ball.getAcceleration().y = 0;
-                    Log.e("madmaze", "collide on top of " + rect.getPosition().toString());
-                }
-                //BOTTOM
-                if(GameTools.checkCollision(bottomLeft, bottomRight, center, ball.getRadius()) &&
-                        center.x > bottomLeft.x &&
-                        center.x + ball.getRadius() < bottomRight.x &&
-                        ball.getAcceleration().y < 0)
-                {
-                    ball.getPosition().y = bottomRight.y + ball.getRadius() + antiStick;
-                    ball.getSpeed().y = 0;
-                    ball.getAcceleration().y = 0;
-                    Log.e("madmaze", "collide on top of " + rect.getPosition().toString());
-                }*/
             }
         }
     }
@@ -216,7 +166,8 @@ public class GameController {
         screenHeight = height;
     }
 
-    //**    Gets    **//
+    //**    Getters    **//
+
     public World getWorld(){
         return world;
     }
@@ -226,34 +177,4 @@ public class GameController {
     public int getScore() {
         return score;
     }
-
-    //**     Private     **//
-
-    /*private void handleCircleRectCollision(Ball ball, Rectangle rect){
-        boolean[] collidingSides = ball.getCollisions();
-
-        //In x
-        if(collidingSides[GameTools.LEFT]){
-            ball.getPosition().x = rect.getLeft() - ball.getRadius() - antiStick;
-            ball.getSpeed().x = 0;
-            ball.getAcceleration().x = 0;
-        }
-        else if(collidingSides[GameTools.RIGHT]){
-            ball.getPosition().x = rect.getRight() + ball.getRadius() + antiStick;//Just not to stick
-            ball.getSpeed().x = 0;
-            ball.getAcceleration().x = 0;
-        }
-
-        //In y
-        if(collidingSides[GameTools.TOP]){
-            ball.getPosition().y = rect.getTop() - ball.getRadius() - antiStick;
-            ball.getSpeed().y = 0;
-            ball.getAcceleration().y = 0;
-        }
-        else if(collidingSides[GameTools.BOTTOM]){
-            ball.getPosition().y = rect.getBottom() + ball.getRadius() + antiStick;
-            ball.getSpeed().y = 0;
-            ball.getAcceleration().y = 0;
-        }
-    }*/
 }

@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 
+//https://openclassrooms.com/courses/creez-des-applications-pour-android/apprenez-a-dessiner
 public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     SurfaceHolder surfaceHolder;    // Le holder
@@ -39,9 +40,12 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     //Update from surfaceview
     @Override
     protected void onDraw(Canvas canvas) {
-        //controller.update(0);       //Calculate delta
-        postInvalidate();
-        controller.draw(canvas, paint);
+        //Improvement : calculate delta time
+
+        //if(canvas != null) {
+            //postInvalidate();
+            controller.draw(canvas, paint);
+        //}
     }
 
     // Que faire quand le surface change ? (L'utilisateur tourne son téléphone par exemple)
@@ -53,7 +57,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        //setWillNotDraw(false);      //Allow to redraw, called postinvalidate instead. Maybe approach is wrong
+        setWillNotDraw(false);      //Allow to redraw, called postinvalidate instead. Maybe approach is wrong
         thread.keepDrawing = true;
         thread.start();
     }
@@ -88,7 +92,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     // On s'assure qu'aucun autre thread n'accède au holder
                     synchronized (surfaceHolder) {
                         // Et on dessine
-                        onDraw(canvas);
+                        //onDraw(canvas);
+                        postInvalidate();
                     }
                 }
                 finally {
