@@ -28,6 +28,16 @@ public class IOTools {
         editor.commit();
     }
 
+
+    public static void writePosition(Context context, int position){
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();  // We need an Editor object to make preference changes.
+        editor.putInt("position", position);
+
+        // Commit the edits
+        editor.commit();
+    }
+
     /***
      * Get back preference. In this case the bestscore (int) depending of the level passed.
      *
@@ -39,5 +49,10 @@ public class IOTools {
         // Restore preferences
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         return settings.getInt("score"+levelName, -1);
+    }
+
+    public static int readPosition(Context context){
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        return settings.getInt("position", -1);
     }
 }

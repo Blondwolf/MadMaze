@@ -58,7 +58,7 @@ public class ScoresFragment extends Fragment {
 
         //Find text field and change score text
         TextView textScore = (TextView) view.findViewById(R.id.text__bestScore);
-        textScore.setText(getString(R.string.title_best_scores) + ":" + score);
+        textScore.setText(getString(R.string.title_best_scores) + "\n" + score);
 
         //region BUTTONS
         btnGoBackToMenu = (Button) view.findViewById(R.id.btn_scores_backToMenu);
@@ -91,7 +91,8 @@ public class ScoresFragment extends Fragment {
                 FragmentTransaction ft = fm.beginTransaction();
                 Bundle args = new Bundle();
                 //find a way to retrieve last position
-                args.putInt("worldID", 1);
+                int position = IOTools.readPosition(getActivity().getApplicationContext());
+                args.putInt("worldID", position);
 
                 gf.setArguments(args);
                 Log.wtf(TAG, "onClick: OK - redirect to game fragment " + args.getInt("worldID"));
