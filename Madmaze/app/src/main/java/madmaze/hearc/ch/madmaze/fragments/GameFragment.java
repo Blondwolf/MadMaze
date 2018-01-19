@@ -118,7 +118,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
             int oldScore = IOTools.read(getActivity().getApplicationContext(), controller.getWorld().getName());
             int newScore = controller.getScore();
-            if(newScore < oldScore)
+            if(newScore < oldScore || oldScore < 0) // if oldscore is < 0, then there is no score saved
                 IOTools.write(getActivity().getApplicationContext(), controller.getWorld().getName(), newScore);
 
             //Init Fragment
