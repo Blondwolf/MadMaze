@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import in.goodiebag.carouselpicker.CarouselPicker;
 import madmaze.hearc.ch.madmaze.CustomDialogFragment;
@@ -40,6 +41,7 @@ public class ChooseLevelFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
@@ -51,7 +53,6 @@ public class ChooseLevelFragment extends Fragment {
 
         //region CAROUSEL
         //https://github.com/GoodieBag/CarouselPicker
-        //https://developer.android.com/training/material/lists-cards.html#RecyclerView
         CarouselPicker carouselPicker = (CarouselPicker) view.findViewById(R.id.carousel);
         carouselPicker.setVisibility(View.VISIBLE);
 
@@ -60,7 +61,6 @@ public class ChooseLevelFragment extends Fragment {
         imageItems.add(new CarouselPicker.DrawableItem(R.drawable.map1));
         imageItems.add(new CarouselPicker.DrawableItem(R.drawable.map2));
         imageItems.add(new CarouselPicker.DrawableItem(R.drawable.map3));
-
 
         //adapter
         CarouselPicker.CarouselViewAdapter adapter = new CarouselPicker.CarouselViewAdapter(view.getContext(), imageItems, 0);
@@ -75,6 +75,17 @@ public class ChooseLevelFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 //position of the selected item
+                //https://stackoverflow.com/questions/23250707/how-to-pass-a-value-from-one-fragment-to-another-in-android
+                //go to GAME FRAGMENT passing the world value
+                GameFragment gf = new GameFragment();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Bundle args = new Bundle();
+                args.putInt("worldID", position);
+                gf.setArguments(args);
+                Log.wtf(TAG, "onClick: OK - redirect to game fragment " + args.getInt("worldID"));
+                ft.replace(R.id.frame_container, gf);
+                ft.commit();
             }
 
             @Override
@@ -87,7 +98,7 @@ public class ChooseLevelFragment extends Fragment {
 
         //region BUTTONS
         btnBackToMenu = (Button) view.findViewById(R.id.btn_chlvl_backToMenu);
-        btnSelect = (Button) view.findViewById(R.id.btn_chlvl_select);
+        //btnSelect = (Button) view.findViewById(R.id.btn_chlvl_select);
         btnRandom = (Button) view.findViewById(R.id.btn_chlvl_random);
         //endregion BUTTONS
 
@@ -107,18 +118,18 @@ public class ChooseLevelFragment extends Fragment {
             }
         });
 
-        btnSelect.setOnClickListener(new View.OnClickListener(){
+        /*btnSelect.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view){
                 Log.wtf(TAG, "onClick: SELECT LEVEL");
 
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+                /*FragmentManager fm = getActivity().getSupportFragmentManager();
 
                 CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_select_level)
                         .show(fm, TAG);
             }
-        });
+        });*/
 
         btnRandom.setOnClickListener(new View.OnClickListener(){
 
@@ -128,10 +139,16 @@ public class ChooseLevelFragment extends Fragment {
                 //choose level randomly
                 Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
                 //no dialog here
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frame_container, new GameFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                GameFragment gf = new GameFragment();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Bundle args = new Bundle();
+                int max = 3; int min = 1;
+                args.putInt("worldID", new Random().nextInt(max - min + 1) + min);
+                gf.setArguments(args);
+                Log.wtf(TAG, "onClick: OK - redirect to game fragment " + args.getInt("worldID"));
+                ft.replace(R.id.frame_container, gf);
+                ft.commit();
 
             }
         });
