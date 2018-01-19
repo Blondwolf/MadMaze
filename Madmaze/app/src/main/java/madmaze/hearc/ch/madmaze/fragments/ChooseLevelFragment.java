@@ -21,6 +21,7 @@ import madmaze.hearc.ch.madmaze.CustomDialogFragment;
 import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.enums.MessageType;
 import madmaze.hearc.ch.madmaze.R;
+import madmaze.hearc.ch.madmaze.game.controller.IOTools;
 
 public class ChooseLevelFragment extends Fragment {
 
@@ -77,6 +78,7 @@ public class ChooseLevelFragment extends Fragment {
                 //position of the selected item
                 //https://stackoverflow.com/questions/23250707/how-to-pass-a-value-from-one-fragment-to-another-in-android
                 //go to GAME FRAGMENT passing the world value
+                IOTools.writePosition(getActivity().getApplicationContext(), position);
                 GameFragment gf = new GameFragment();
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
