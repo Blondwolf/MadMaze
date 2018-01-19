@@ -85,12 +85,18 @@ public class ScoresFragment extends Fragment {
             public void onClick(View view){
                 Log.wtf(TAG, "onClick: REDO");
 
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+                GameFragment gf = new GameFragment();
 
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frame_container, new GameFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Bundle args = new Bundle();
+                //find a way to retrieve last position
+                args.putInt("worldID", 1);
+
+                gf.setArguments(args);
+                Log.wtf(TAG, "onClick: OK - redirect to game fragment " + args.getInt("worldID"));
+                ft.replace(R.id.frame_container, gf);
+                ft.commit();
             }
         });
 

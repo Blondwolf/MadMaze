@@ -40,6 +40,8 @@ public class GameFragment extends Fragment implements SensorEventListener {
     SensorManager sensorManager;
     Sensor gyroscope;
 
+    int lastPosition = 0;
+
     //**        Fragment        **//
 
     public GameFragment() {
@@ -71,17 +73,24 @@ public class GameFragment extends Fragment implements SensorEventListener {
         //3. controller.setWorld(world)
         //This way we can send to the world the screen size from the surfaceview
         //and update it in the surfaceview too
-
-        WorldManager wm = new WorldManager();
-
-        controller = new GameController(wm.getWorld(3));
     }
 
     //Android widgets
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.wtf(TAG, "onCreateView: ");
-        super.onCreateView(inflater, container, savedInstanceState);
+        //super.onCreateView(inflater, container, savedInstanceState);
+
+        WorldManager wm = new WorldManager();
+        int worldID;
+
+        //Log.wtf(TAG, "Check last position: " + lastPosition);
+
+        worldID = getArguments().getInt("worldID");
+
+
+        controller = new GameController(wm.getWorld(worldID));
+
         view = new GameSurfaceView(getActivity().getApplicationContext(), controller);
         view.setBackgroundColor(controller.getWorld().getBackground());       //It's not the real background but a default color screen
         return view;
