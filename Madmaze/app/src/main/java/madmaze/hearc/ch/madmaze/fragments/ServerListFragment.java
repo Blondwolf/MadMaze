@@ -101,6 +101,8 @@ public class ServerListFragment extends Fragment implements WifiP2pManager.PeerL
                 wifiPeerAdapter.setSelectedPosition(position);
             }
         });
+
+        ((MainActivity)getActivity()).setClient(true);
         wifiPeerAdapter = new WifiPeerAdapter(peerList, getActivity().getApplicationContext());
         this.listView.setAdapter(wifiPeerAdapter);
 

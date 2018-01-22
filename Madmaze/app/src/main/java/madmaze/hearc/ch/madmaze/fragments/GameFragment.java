@@ -163,6 +163,7 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
         if(isClient) {
             sender.execute("move;"+Float.toString(pitch));
+            Log.wtf(TAG, "move;"+Float.toString(pitch));
         }
     }
 

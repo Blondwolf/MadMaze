@@ -1,6 +1,8 @@
 package madmaze.hearc.ch.madmaze.game.wifi;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -46,6 +48,11 @@ public class Server {
                 while (true) {
                     Socket socket = server.accept();
                     try {
+
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        String msg = reader.readLine();
+                        game.update(true, msg);
+
                         String message = game.getPos();
                         OutputStream outputStream = socket.getOutputStream();
                         PrintStream printStream = new PrintStream(outputStream);

@@ -54,6 +54,7 @@ public class ChooseLevelFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_choose_level, container, false);
 
+        ((MainActivity)getActivity()).setClient(false);
         //broadcastReceiver = new WifiBroadcastReceiver(wifiManager, channel, this);
         //region BUTTONS
         btnBackToMenu = (Button) view.findViewById(R.id.btn_chlvl_backToMenu);

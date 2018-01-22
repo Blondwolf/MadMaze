@@ -96,6 +96,10 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
         unregisterReceiver(broadcastReceiver);
     }
 
+    public void setClient(boolean isClient) {
+        this.isClient = isClient;
+    }
+
     public boolean isClient() {
         return isClient;
     }
@@ -104,13 +108,7 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
     public void onConnectionInfoAvailable(WifiP2pInfo info) {
         this.wifiInfo = info;
         if(info != null) {
-            String host = info.groupOwnerAddress.getHostAddress();
-            //Server
-            if(info.groupFormed && info.isGroupOwner) {
-                isClient = false;
-            }
-            //Client
-            else if(info.groupFormed) {
+            if(isClient) {
                 isClient = true;
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.frame_container, new GameFragment());
