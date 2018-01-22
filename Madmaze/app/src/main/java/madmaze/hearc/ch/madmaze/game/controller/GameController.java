@@ -200,6 +200,14 @@ public class GameController {
         world.getBallPlayer().setPlayerAcceleration(x, y);
     }
 
+    public void movePlayerX(float x) {
+        world.getBallPlayer().setPlayerXAcceleration(x);
+    }
+
+    public void movePlayerY(float y) {
+        world.getBallPlayer().setPlayerYAcceleration(y);
+    }
+
     //Update in case screen change like reverse the phone. Normally not but it's used in init
     public void updateSurfaceInfos(int width, int height) {
         worldRect = new Rectangle(new PointF(0, 0), new PointF(width,height));  //TODO better use set

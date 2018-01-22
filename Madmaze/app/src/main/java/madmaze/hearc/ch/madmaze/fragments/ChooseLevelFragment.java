@@ -1,5 +1,7 @@
 package madmaze.hearc.ch.madmaze.fragments;
 
+import android.content.IntentFilter;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +13,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import madmaze.hearc.ch.madmaze.CustomDialogFragment;
+import madmaze.hearc.ch.madmaze.MainActivity;
 import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.enums.MessageType;
 import madmaze.hearc.ch.madmaze.R;
+import madmaze.hearc.ch.madmaze.game.wifi.Server;
+import madmaze.hearc.ch.madmaze.game.wifi.WifiBroadcastReceiver;
 
 public class ChooseLevelFragment extends Fragment {
 
@@ -27,7 +36,6 @@ public class ChooseLevelFragment extends Fragment {
     //endregion ATTRIBUTES
 
     public ChooseLevelFragment() {
-        // Required empty public constructor
     }
 
     public static ChooseLevelFragment newInstance(String param1, String param2) {
@@ -46,6 +54,7 @@ public class ChooseLevelFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_choose_level, container, false);
 
+        //broadcastReceiver = new WifiBroadcastReceiver(wifiManager, channel, this);
         //region BUTTONS
         btnBackToMenu = (Button) view.findViewById(R.id.btn_chlvl_backToMenu);
         btnSelect = (Button) view.findViewById(R.id.btn_chlvl_select);

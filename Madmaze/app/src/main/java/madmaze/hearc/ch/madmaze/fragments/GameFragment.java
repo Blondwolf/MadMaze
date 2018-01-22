@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,19 +18,26 @@ import android.view.ViewGroup;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import madmaze.hearc.ch.madmaze.MainActivity;
 import madmaze.hearc.ch.madmaze.R;
-import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Goal;
 import madmaze.hearc.ch.madmaze.game.model.Rectangle;
 import madmaze.hearc.ch.madmaze.game.model.World;
 import madmaze.hearc.ch.madmaze.game.view.GameSurfaceView;
+import madmaze.hearc.ch.madmaze.game.wifi.SendMessage;
+import madmaze.hearc.ch.madmaze.game.wifi.Server;
 
 public class GameFragment extends Fragment implements SensorEventListener {
 
     public static final String TAG = "Game";
 
+    private int port = 8888;
+    private SendMessage sender;
+    private Server server;
+    private boolean isClient;
+    private float roll;
     //View & controller
     GameSurfaceView view;
     GameController controller;
@@ -50,11 +58,31 @@ public class GameFragment extends Fragment implements SensorEventListener {
         return fragment;
     }
 
+    public void launchServer() {
+        isClient = false;
+        server = new Server(this, port);
+    }
+
     //Logic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.wtf(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
+
+        //Connect server-client
+        if(getActivity() instanceof  MainActivity) {
+            boolean isClient = ((MainActivity) getActivity()).isClient();
+            WifiP2pInfo info = ((MainActivity)getActivity()).getWifiInfo();
+            if(info != null) {
+                String host = info.groupOwnerAddress.getHostAddress();
+                //Server
+                if(!isClient) {
+                    launchServer();
+                } else {
+
+                }
+            }
+        }
 
         //Sensors
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -131,9 +159,38 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
         //float yaw = (float) orientation[0]; //Yaw
         float pitch = (float) orientation[1]; //Pitch
-        float roll = (float) orientation[2]; //Roll
+        roll = orientation[2]; //Roll
 
-        controller.movePlayer(-pitch, -roll);   //Y is reversed
+        if(isClient) {
+            sender.execute("move;"+Float.toString(pitch));
+        }
+    }
+
+    public String getPos() {
+        return "move;"+roll;
+    }
+
+    public void update(boolean isClient, String datas) {
+        String[] data = datas.split(";");
+        switch(data[0]) {
+            case "start":
+                break;
+            case "move":
+                if(isClient) {
+                    controller.movePlayerY(Float.parseFloat(data[1]));
+                } else {
+                    controller.movePlayerX(Float.parseFloat(data[1]));
+                }
+                break;
+            case "end":
+                break;
+        }
+    }
+
+    public void stop() {
+        if(server != null) {
+            server.stop();
+        }
     }
 
     @Override
