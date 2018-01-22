@@ -163,15 +163,20 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
         if(isClient) {
             sender.execute("move;"+Float.toString(pitch));
-            Log.wtf(TAG, "move;"+Float.toString(pitch));
+            Log.e(TAG,"send");
+            controller.movePlayerX(pitch);
+        } else {
+            controller.movePlayerY(roll);
         }
     }
 
     public String getPos() {
+        Log.e(TAG,"move;roll");
         return "move;"+roll;
     }
 
     public void update(boolean isClient, String datas) {
+        Log.e(TAG, "update");
         String[] data = datas.split(";");
         switch(data[0]) {
             case "start":
