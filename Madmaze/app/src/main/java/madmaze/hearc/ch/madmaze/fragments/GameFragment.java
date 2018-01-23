@@ -20,13 +20,16 @@ import java.math.RoundingMode;
 
 import madmaze.hearc.ch.madmaze.MainActivity;
 import madmaze.hearc.ch.madmaze.R;
+import madmaze.hearc.ch.madmaze.enums.FragmentType;
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
+import madmaze.hearc.ch.madmaze.game.controller.WorldManager;
+import madmaze.hearc.ch.madmaze.game.controller.IOTools;
 import madmaze.hearc.ch.madmaze.game.model.Ball;
 import madmaze.hearc.ch.madmaze.game.model.Goal;
 import madmaze.hearc.ch.madmaze.game.model.Rectangle;
 import madmaze.hearc.ch.madmaze.game.model.World;
 import madmaze.hearc.ch.madmaze.game.view.GameSurfaceView;
-import madmaze.hearc.ch.madmaze.game.wifi.SendMessage;
+import madmaze.hearc.ch.madmaze.game.wifi.Client;
 import madmaze.hearc.ch.madmaze.game.wifi.Server;
 
 public class GameFragment extends Fragment implements SensorEventListener {
@@ -34,10 +37,10 @@ public class GameFragment extends Fragment implements SensorEventListener {
     public static final String TAG = "Game";
 
     private int port = 8888;
-    private SendMessage sender;
+    private Client sender;
     private Server server;
     private boolean isClient;
-    private float roll;
+
     //View & controller
     GameSurfaceView view;
     GameController controller;
@@ -45,6 +48,8 @@ public class GameFragment extends Fragment implements SensorEventListener {
     //Sensor
     SensorManager sensorManager;
     Sensor gyroscope;
+
+    int lastPosition = 0;
 
     //**        Fragment        **//
 
@@ -58,31 +63,11 @@ public class GameFragment extends Fragment implements SensorEventListener {
         return fragment;
     }
 
-    public void launchServer() {
-        isClient = false;
-        server = new Server(this, port);
-    }
-
     //Logic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.wtf(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
-
-        //Connect server-client
-        if(getActivity() instanceof  MainActivity) {
-            boolean isClient = ((MainActivity) getActivity()).isClient();
-            WifiP2pInfo info = ((MainActivity)getActivity()).getWifiInfo();
-            if(info != null) {
-                String host = info.groupOwnerAddress.getHostAddress();
-                //Server
-                if(!isClient) {
-                    launchServer();
-                } else {
-
-                }
-            }
-        }
 
         //Sensors
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -97,23 +82,38 @@ public class GameFragment extends Fragment implements SensorEventListener {
         //3. controller.setWorld(world)
         //This way we can send to the world the screen size from the surfaceview
         //and update it in the surfaceview too
-
-        World world = new World();
-        //should retrieve position dynamically from canvas -> PointF(world.posx - a, world.posy - b)
-        world.setBallPlayer(new Ball(new PointF(100, 100), 40));
-        world.setGoal(new Goal(new PointF(1700, 975), 50));
-
-        world.addElement(new Rectangle(new PointF(300, 0), new PointF(200, 500)));
-        world.addElement(new Rectangle(new PointF(500, 700), new PointF(200, 500)));
-
-        controller = new GameController(world);
     }
 
     //Android widgets
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.wtf(TAG, "onCreateView: ");
-        super.onCreateView(inflater, container, savedInstanceState);
+        //super.onCreateView(inflater, container, savedInstanceState);
+        //Connect server-client
+        if(getActivity() instanceof MainActivity) {
+            isClient = ((MainActivity) getActivity()).isClient();
+            WifiP2pInfo info = ((MainActivity)getActivity()).getWifiInfo();
+            if(info != null) {
+                String host = info.groupOwnerAddress.getHostAddress();
+                //Server
+                if(!isClient) {
+                    server = new Server(this, port);
+                } else {
+                    sender = new Client(this, host, port);
+                }
+            }
+        }
+
+        WorldManager wm = new WorldManager();
+        int worldID;
+
+        //Log.wtf(TAG, "Check last position: " + lastPosition);
+
+        worldID = 1;//getArguments().getInt("worldID");
+
+
+        controller = new GameController(wm.getWorld(worldID));
+
         view = new GameSurfaceView(getActivity().getApplicationContext(), controller);
         view.setBackgroundColor(controller.getWorld().getBackground());       //It's not the real background but a default color screen
         return view;
@@ -147,9 +147,24 @@ public class GameFragment extends Fragment implements SensorEventListener {
         //test game end
         if(controller.isGameEnd()){
             Log.wtf(TAG, "onSensorChanged: GAME END");
-            //change view
+
+            int oldScore = IOTools.read(getActivity().getApplicationContext(), controller.getWorld().getName());
+            int newScore = controller.getScore();
+            if(newScore < oldScore || oldScore < 0) // if oldscore is < 0, then there is no score saved
+                IOTools.write(getActivity().getApplicationContext(), controller.getWorld().getName(), newScore);
+
+            //Init Fragment
+            Fragment fragment = new ScoresFragment();
+
+            //Create bundle to send to ScoreFragment
+            //https://stackoverflow.com/questions/36041545/send-data-to-fragment-with-fragmenttransaction
+            Bundle arguments = new Bundle();
+            arguments.putString("LevelName", controller.getWorld().getName());
+            fragment.setArguments(arguments);
+
+            //Change view
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_container, new ScoresFragment());
+            fragmentTransaction.replace(R.id.frame_container, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
@@ -159,20 +174,17 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
         //float yaw = (float) orientation[0]; //Yaw
         float pitch = (float) orientation[1]; //Pitch
-        roll = orientation[2]; //Roll
+        float roll = (float) orientation[2]; //Roll
 
         if(isClient) {
-            sender.execute("move;"+Float.toString(pitch));
+            sender.execute("move;"+Float.toString(-pitch));
             Log.e(TAG,"send");
-            controller.movePlayerX(pitch);
+            controller.movePlayerX(-pitch);
         } else {
-            controller.movePlayerY(roll);
+            Log.e(TAG,"send "+ server);
+            server.send("move;"+Float.toString(-roll));
+            controller.movePlayerY(-roll);
         }
-    }
-
-    public String getPos() {
-        Log.e(TAG,"move;roll");
-        return "move;"+roll;
     }
 
     public void update(boolean isClient, String datas) {

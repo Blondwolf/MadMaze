@@ -19,12 +19,19 @@ public class Server {
     private GameFragment game;
     private ServerSocket server;
     private int port;
+    private SocketServerThread socketServerThread;
 
     public Server(GameFragment game, int port) {
         this.game = game;
         this.port = port;
-        Thread socketServerThread = new Thread(new SocketServerThread());
-        socketServerThread.start();
+    }
+
+    public void send(String msg) {
+        if(socketServerThread == null) {
+            socketServerThread = new SocketServerThread();
+            socketServerThread.start();
+        }
+        socketServerThread.send(msg);
     }
 
     public void stop() {
@@ -38,7 +45,23 @@ public class Server {
         }
     }
 
-    private class SocketServerThread extends Thread {
+    public class SocketServerThread extends Thread {
+
+        private Socket client;
+
+        public void send(String data) {
+            if(client == null || !client.isConnected()) {
+                return;
+            }
+            try {
+                OutputStream outputStream = client.getOutputStream();
+                PrintStream printStream = new PrintStream(outputStream);
+                printStream.print(data);
+                printStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         @Override
         public void run() {
@@ -46,18 +69,14 @@ public class Server {
                 server = new ServerSocket(port);
 
                 while (true) {
-                    Socket socket = server.accept();
+                    if(client == null || !client.isConnected()) {
+                        client = server.accept();
+                    }
                     try {
 
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
                         String msg = reader.readLine();
-                        game.update(true, msg);
-
-                        String message = game.getPos();
-                        OutputStream outputStream = socket.getOutputStream();
-                        PrintStream printStream = new PrintStream(outputStream);
-                        printStream.print(message);
-                        printStream.close();
+                        game.update(false, msg);
 
                     } catch (IOException e) {
                         // TODO Auto-generated catch block

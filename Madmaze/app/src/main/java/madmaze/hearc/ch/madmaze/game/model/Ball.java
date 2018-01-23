@@ -117,10 +117,12 @@ public class Ball extends ElementMovable {
     public void setPlayerAcceleration(float x, float y) {
         acceleration.set(x, y);
     }
+
     public void setPlayerXAcceleration(float x) {
-        acceleration.set(x, acceleration.y);
+        acceleration.x = x;
     }
+
     public void setPlayerYAcceleration(float y) {
-        acceleration.set(acceleration.x, y);
+        acceleration.y = y;
     }
 }

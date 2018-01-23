@@ -20,7 +20,7 @@ public class Rectangle extends ElementStatic {
 
     @Override
     public void draw(Canvas canvas, Paint paint) {
-        paint.setColor(Color.RED);
+        paint.setColor(Color.WHITE);
         canvas.drawRect(getLeft(), getTop(), getRight(), getBottom(), paint);
     }
 

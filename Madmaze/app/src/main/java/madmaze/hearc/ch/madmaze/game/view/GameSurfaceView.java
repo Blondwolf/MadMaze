@@ -8,6 +8,8 @@ import android.view.SurfaceView;
 
 import madmaze.hearc.ch.madmaze.game.controller.GameController;
 
+//https://openclassrooms.com/courses/creez-des-applications-pour-android/apprenez-a-dessiner
+//http://blog.danielnadeau.io/2012/01/android-canvas-beginners-tutorial.html
 public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     SurfaceHolder surfaceHolder;    // Le holder
@@ -16,6 +18,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     Paint paint;
 
     GameController controller;
+    long startTime;
 
     //For xml inflation
     public GameSurfaceView(Context context) {
@@ -39,9 +42,12 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     //Update from surfaceview
     @Override
     protected void onDraw(Canvas canvas) {
-        //controller.update(0);       //Calculate delta
-        postInvalidate();
-        controller.draw(canvas, paint);
+        //Improvement : calculate delta time
+
+        if(canvas != null) {
+            postInvalidate();
+            controller.draw(canvas, paint);
+        }
     }
 
     // Que faire quand le surface change ? (L'utilisateur tourne son téléphone par exemple)
@@ -53,7 +59,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        //setWillNotDraw(false);      //Allow to redraw, called postinvalidate instead. Maybe approach is wrong
+        setWillNotDraw(false);      //Allow to redraw, called postinvalidate instead. Maybe approach is wrong
         thread.keepDrawing = true;
         thread.start();
     }
@@ -89,6 +95,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     synchronized (surfaceHolder) {
                         // Et on dessine
                         onDraw(canvas);
+                        //postInvalidate();
+                        //draw(canvas);     //Normally it should be this call instead
                     }
                 }
                 finally {
@@ -98,10 +106,48 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 }
 
                 // Pour dessiner à 50 fps
-                try {
+                /*try {
                     Thread.sleep(20);
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {}*/
             }
+        }
+    }
+
+
+
+    private long time = System.currentTimeMillis();
+
+    /**
+     *
+     * @param startTime
+     * @return <code>true</code> if the interval between startTime and the time
+     *         when this method was called is smaller or equal to the given
+     *         frame period.
+     *
+     *         Will return <code>false</code> if the interval was longer.
+     */
+    public boolean doFpsCheck(long startTime) {
+        final long SECOND = 1000;
+        final long TARGET_FPS = 40;
+        final long FRAME_PERIOD = SECOND / TARGET_FPS;
+
+        if (System.currentTimeMillis() - time >= SECOND) {
+            time = System.currentTimeMillis();
+        }
+
+        long sleepTime = FRAME_PERIOD
+                - (System.currentTimeMillis() - startTime);
+
+        if (sleepTime >= 0) {
+            try {
+                Thread.sleep(sleepTime);
+            } catch (InterruptedException e) {
+                //TODO handle this properly
+                e.printStackTrace();
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 }

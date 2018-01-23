@@ -31,11 +31,15 @@ public class World {
         this("Level test", new ArrayList<Element>());
     }
 
+    public World(String name){
+        this(name, new ArrayList<Element>());
+    }
+
     public World(String name, List<Element> elements){
         this.name = name;
         this.elements = elements;
 
-        this.backgroundColor = Color.WHITE;//Need to change to a drawable
+        this.backgroundColor = Color.rgb(53, 209, 224);//Need to change to a drawable
     }
 
     //Logic
@@ -90,5 +94,9 @@ public class World {
     //Need to change to a drawable
     public int getBackground() {
         return backgroundColor;
+    }
+
+    public String getName() {
+        return name;
     }
 }
