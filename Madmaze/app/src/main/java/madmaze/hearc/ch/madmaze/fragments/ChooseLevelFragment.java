@@ -90,6 +90,7 @@ public class ChooseLevelFragment extends Fragment {
                 Log.wtf(TAG, "onClick: OK - redirect to game fragment " + args.getInt("worldID"));
                 ft.replace(R.id.frame_container, gf);
                 ft.commit();
+                ((MainActivity)getActivity()).setIsStarted(true);
             }
 
             @Override
@@ -153,6 +154,7 @@ public class ChooseLevelFragment extends Fragment {
                 Log.wtf(TAG, "onClick: OK - redirect to game fragment " + args.getInt("worldID"));
                 ft.replace(R.id.frame_container, gf);
                 ft.commit();
+                ((MainActivity)getActivity()).setIsStarted(true);
 
             }
         });

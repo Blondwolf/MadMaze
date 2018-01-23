@@ -180,10 +180,16 @@ public class GameFragment extends Fragment implements SensorEventListener {
     }
 
     public void movePlayerY(float value) {
+        if(controller == null) {
+            return;
+        }
         controller.movePlayerY(value);
     }
 
     public void movePlayerX(float value) {
+        if(controller == null) {
+            return;
+        }
         controller.movePlayerX(value);
     }
 

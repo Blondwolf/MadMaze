@@ -113,22 +113,29 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
         this.wifiInfo = info;
         if(info != null) {
             String host = info.groupOwnerAddress.getHostAddress();
-            if(isClient) {
-                isClient = true;
-                client = new Client(this, host, port);
-                new Thread(client).start();
-            } else {
+            if(info.groupFormed && info.isGroupOwner) {
                 isClient = false;
                 server = new Server(this, port);
                 server.open();
+            } else {
+                isClient = true;
+                client = new Client(this, host, port);
+                new Thread(client).start();
             }
         }
     }
 
+    public void setIsStarted(boolean isStarted) {
+        this.isStarted = isStarted;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
     public String getServerPos() {
-        if(!isStarted) {
-            isStarted =true;
-            return "start";
+        if(!(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof GameFragment)) {
+            return "null";
         }
         GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if(frag == null) {
@@ -138,6 +145,9 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
     }
 
     public String getClientPos() {
+        if(!(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof GameFragment)) {
+            return "null";
+        }
         GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if(frag == null) {
             return "error";
@@ -147,15 +157,21 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
 
     public void update(String datas) {
         String[] data = datas.split(";");
-        Log.e("T", data[0]);
+        Log.e("T", data[0]+isClient);
         switch(data[0]) {
             case "start":
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frame_container, new GameFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                if(isClient) {
+                    isStarted = true;
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame_container, new GameFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
                 break;
             case "move":
+                if(!(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof GameFragment)) {
+                    return;
+                }
                 GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
                 if(frag == null) {
                     return;
