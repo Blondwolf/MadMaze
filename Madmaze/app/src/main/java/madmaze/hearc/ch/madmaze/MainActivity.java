@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import madmaze.hearc.ch.madmaze.fragments.GameFragment;
 import madmaze.hearc.ch.madmaze.fragments.HomeFragment;
+import madmaze.hearc.ch.madmaze.game.wifi.Client;
+import madmaze.hearc.ch.madmaze.game.wifi.Server;
 import madmaze.hearc.ch.madmaze.game.wifi.WifiBroadcastReceiver;
 
 public class MainActivity extends FragmentActivity implements WifiP2pManager.ConnectionInfoListener {
@@ -24,6 +26,9 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
     private IntentFilter intentFilter;
     private WifiP2pInfo wifiInfo;
     private boolean isClient;
+    private int port = 8888;
+    private Client client;
+    private Server server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -65,10 +70,8 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
     }
 
     public void disconnect() {
-
-        if(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof GameFragment) {
-            GameFragment fragment = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
-            fragment.stop();
+        if(server != null) {
+            server.stop();
         }
         manager.removeGroup(channel, new WifiP2pManager.ActionListener() {
             @Override
@@ -108,13 +111,69 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
     public void onConnectionInfoAvailable(WifiP2pInfo info) {
         this.wifiInfo = info;
         if(info != null) {
+            String host = info.groupOwnerAddress.getHostAddress();
             if(isClient) {
                 isClient = true;
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frame_container, new GameFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                client = new Client(this, host, port);
+            } else {
+                isClient = false;
+                server = new Server(this, port);
             }
+        }
+    }
+
+    public void send(String datas) {
+        String[] data = datas.split(";");
+        switch(data[0]) {
+            case "start":
+                server.send("start");
+                break;
+            case "move":
+                GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
+                if(frag == null) {
+                    return;
+                }
+                float pitch = -Float.parseFloat(data[1]);
+                float roll = -Float.parseFloat(data[2]);
+                if(isClient) {
+                    client.send("move;"+pitch);
+                    frag.movePlayerY(roll);
+                } else {
+                    server.send("move;"+roll);
+                    frag.movePlayerX(pitch);
+                }
+                break;
+            case "end":
+                break;
+        }
+    }
+
+    public void update(boolean isClient, String datas) {
+        Log.e(TAG, "update");
+        String[] data = datas.split(";");
+        Log.e(TAG, "UPDATE "+isClient);
+        switch(data[0]) {
+            case "start":
+                if(isClient) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame_container, new GameFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+                break;
+            case "move":
+                GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
+                if(frag == null) {
+                    return;
+                }
+                if(isClient) {
+                    frag.movePlayerX(Float.parseFloat(data[1]));
+                } else {
+                    frag.movePlayerY(Float.parseFloat(data[1]));
+                }
+                break;
+            case "end":
+                break;
         }
     }
 

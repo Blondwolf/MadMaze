@@ -80,6 +80,7 @@ public class ChooseLevelFragment extends Fragment {
                 //position of the selected item
                 //https://stackoverflow.com/questions/23250707/how-to-pass-a-value-from-one-fragment-to-another-in-android
                 //go to GAME FRAGMENT passing the world value
+                ((MainActivity)getActivity()).send("start;");
                 IOTools.writePosition(getActivity().getApplicationContext(), position);
                 GameFragment gf = new GameFragment();
                 FragmentManager fm = getFragmentManager();
@@ -143,6 +144,7 @@ public class ChooseLevelFragment extends Fragment {
                 //choose level randomly
                 Toast.makeText(getActivity(), "Going to GameFragment", Toast.LENGTH_SHORT).show();
                 //no dialog here
+                ((MainActivity)getActivity()).send("start;");
                 GameFragment gf = new GameFragment();
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();

@@ -36,11 +36,6 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
     public static final String TAG = "Game";
 
-    private int port = 8888;
-    private Client sender;
-    private Server server;
-    private boolean isClient;
-
     //View & controller
     GameSurfaceView view;
     GameController controller;
@@ -90,20 +85,6 @@ public class GameFragment extends Fragment implements SensorEventListener {
         Log.wtf(TAG, "onCreateView: ");
         //super.onCreateView(inflater, container, savedInstanceState);
         //Connect server-client
-        if(getActivity() instanceof MainActivity) {
-            isClient = ((MainActivity) getActivity()).isClient();
-            WifiP2pInfo info = ((MainActivity)getActivity()).getWifiInfo();
-            if(info != null) {
-                String host = info.groupOwnerAddress.getHostAddress();
-                //Server
-                if(!isClient) {
-                    server = new Server(this, port);
-                } else {
-                    sender = new Client(this, host, port);
-                }
-            }
-        }
-
         WorldManager wm = new WorldManager();
         int worldID;
 
@@ -176,39 +157,16 @@ public class GameFragment extends Fragment implements SensorEventListener {
         float pitch = (float) orientation[1]; //Pitch
         float roll = (float) orientation[2]; //Roll
 
-        if(isClient) {
-            sender.execute("move;"+Float.toString(-pitch));
-            Log.e(TAG,"send");
-            controller.movePlayerX(-pitch);
-        } else {
-            Log.e(TAG,"send "+ server);
-            server.send("move;"+Float.toString(-roll));
-            controller.movePlayerY(-roll);
-        }
+        MainActivity activity = (MainActivity)getActivity();
+        activity.send("move;"+pitch+";"+roll);
     }
 
-    public void update(boolean isClient, String datas) {
-        Log.e(TAG, "update");
-        String[] data = datas.split(";");
-        switch(data[0]) {
-            case "start":
-                break;
-            case "move":
-                if(isClient) {
-                    controller.movePlayerY(Float.parseFloat(data[1]));
-                } else {
-                    controller.movePlayerX(Float.parseFloat(data[1]));
-                }
-                break;
-            case "end":
-                break;
-        }
+    public void movePlayerY(float value) {
+        controller.movePlayerY(value);
     }
 
-    public void stop() {
-        if(server != null) {
-            server.stop();
-        }
+    public void movePlayerX(float value) {
+        controller.movePlayerX(value);
     }
 
     @Override

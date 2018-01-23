@@ -1,5 +1,7 @@
 package madmaze.hearc.ch.madmaze.game.wifi;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +10,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import madmaze.hearc.ch.madmaze.MainActivity;
 import madmaze.hearc.ch.madmaze.fragments.GameFragment;
 
 /**
@@ -16,21 +19,19 @@ import madmaze.hearc.ch.madmaze.fragments.GameFragment;
 
 public class Server {
 
-    private GameFragment game;
+    private MainActivity activity;
     private ServerSocket server;
     private int port;
     private SocketServerThread socketServerThread;
 
-    public Server(GameFragment game, int port) {
-        this.game = game;
+    public Server(MainActivity activity, int port) {
+        this.activity = activity;
         this.port = port;
+        socketServerThread = new SocketServerThread();
+        socketServerThread.start();
     }
 
     public void send(String msg) {
-        if(socketServerThread == null) {
-            socketServerThread = new SocketServerThread();
-            socketServerThread.start();
-        }
         socketServerThread.send(msg);
     }
 
@@ -45,9 +46,9 @@ public class Server {
         }
     }
 
-    public class SocketServerThread extends Thread {
+    private class SocketServerThread extends Thread {
 
-        private Socket client;
+        private Socket client = null;
 
         public void send(String data) {
             if(client == null || !client.isConnected()) {
@@ -74,9 +75,10 @@ public class Server {
                     }
                     try {
 
+                        Log.e("Server", "receive");
                         BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
                         String msg = reader.readLine();
-                        game.update(false, msg);
+                        activity.update(false, msg);
 
                     } catch (IOException e) {
                         // TODO Auto-generated catch block

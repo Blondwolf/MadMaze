@@ -47,7 +47,6 @@ public class ServerListFragment extends Fragment implements WifiP2pManager.PeerL
     }
 
     private void InitializeServer() {
-        System.out.println(getTag());
         if(getActivity() instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) getActivity();
             wifiManager = mainActivity.getWifiManager();
@@ -98,7 +97,7 @@ public class ServerListFragment extends Fragment implements WifiP2pManager.PeerL
         this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                wifiPeerAdapter.setSelectedPosition(position);
+            wifiPeerAdapter.setSelectedPosition(position);
             }
         });
 
@@ -162,6 +161,5 @@ public class ServerListFragment extends Fragment implements WifiP2pManager.PeerL
         peerList.clear();
         peerList.addAll(peers.getDeviceList());
         wifiPeerAdapter.notifyDataSetChanged();
-        System.out.println("TEST");
     }
 }
