@@ -158,7 +158,25 @@ public class GameFragment extends Fragment implements SensorEventListener {
         float roll = (float) orientation[2]; //Roll
 
         MainActivity activity = (MainActivity)getActivity();
-        activity.send("move;"+pitch+";"+roll);
+        if(activity.isClient()) {
+            controller.movePlayerX(-pitch);
+        } else {
+            controller.movePlayerY(-roll);
+        }
+    }
+
+    public String getServerPos() {
+        if(controller.getWorld() == null) {
+            return "move;0";
+        }
+        return "move;"+controller.getWorld().getBallPlayer().getPosition().x;
+    }
+
+    public String getClientPos() {
+        if(controller.getWorld() == null) {
+            return "move;0";
+        }
+        return "move;"+controller.getWorld().getBallPlayer().getPosition().y;
     }
 
     public void movePlayerY(float value) {

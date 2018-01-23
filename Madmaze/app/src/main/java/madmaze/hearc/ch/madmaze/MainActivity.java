@@ -29,6 +29,7 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
     private int port = 8888;
     private Client client;
     private Server server;
+    private boolean isStarted=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -115,51 +116,44 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
             if(isClient) {
                 isClient = true;
                 client = new Client(this, host, port);
+                new Thread(client).start();
             } else {
                 isClient = false;
                 server = new Server(this, port);
+                server.open();
             }
         }
     }
 
-    public void send(String datas) {
-        String[] data = datas.split(";");
-        switch(data[0]) {
-            case "start":
-                server.send("start");
-                break;
-            case "move":
-                GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
-                if(frag == null) {
-                    return;
-                }
-                float pitch = -Float.parseFloat(data[1]);
-                float roll = -Float.parseFloat(data[2]);
-                if(isClient) {
-                    client.send("move;"+pitch);
-                    frag.movePlayerY(roll);
-                } else {
-                    server.send("move;"+roll);
-                    frag.movePlayerX(pitch);
-                }
-                break;
-            case "end":
-                break;
+    public String getServerPos() {
+        if(!isStarted) {
+            isStarted =true;
+            return "start";
         }
+        GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if(frag == null) {
+            return "error";
+        }
+        return frag.getServerPos();
     }
 
-    public void update(boolean isClient, String datas) {
-        Log.e(TAG, "update");
+    public String getClientPos() {
+        GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if(frag == null) {
+            return "error";
+        }
+        return frag.getClientPos();
+    }
+
+    public void update(String datas) {
         String[] data = datas.split(";");
-        Log.e(TAG, "UPDATE "+isClient);
+        Log.e("T", data[0]);
         switch(data[0]) {
             case "start":
-                if(isClient) {
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.frame_container, new GameFragment());
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container, new GameFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 break;
             case "move":
                 GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
@@ -167,9 +161,9 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
                     return;
                 }
                 if(isClient) {
-                    frag.movePlayerX(Float.parseFloat(data[1]));
-                } else {
                     frag.movePlayerY(Float.parseFloat(data[1]));
+                } else {
+                    frag.movePlayerX(Float.parseFloat(data[1]));
                 }
                 break;
             case "end":

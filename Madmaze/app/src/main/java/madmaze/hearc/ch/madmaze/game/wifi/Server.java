@@ -21,18 +21,38 @@ public class Server {
 
     private MainActivity activity;
     private ServerSocket server;
-    private int port;
-    private SocketServerThread socketServerThread;
 
     public Server(MainActivity activity, int port) {
         this.activity = activity;
-        this.port = port;
-        socketServerThread = new SocketServerThread();
-        socketServerThread.start();
+        try {
+            this.server = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void send(String msg) {
-        socketServerThread.send(msg);
+    public void open() {
+        Thread t = new Thread(new Runnable(){
+            public void run(){
+                while(true){
+                    try {
+                        Socket client = server.accept();
+                        Thread t = new Thread(new ClientConnected(activity, client));
+                        t.start();
+                    } catch (IOException e) {
+                        System.out.println("ERROR");
+                        break;
+                    }
+                }
+                try {
+                    server.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    server = null;
+                }
+            }
+        });
+        t.start();
     }
 
     public void stop() {
@@ -41,51 +61,6 @@ public class Server {
                 server.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private class SocketServerThread extends Thread {
-
-        private Socket client = null;
-
-        public void send(String data) {
-            if(client == null || !client.isConnected()) {
-                return;
-            }
-            try {
-                OutputStream outputStream = client.getOutputStream();
-                PrintStream printStream = new PrintStream(outputStream);
-                printStream.print(data);
-                printStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void run() {
-            try {
-                server = new ServerSocket(port);
-
-                while (true) {
-                    if(client == null || !client.isConnected()) {
-                        client = server.accept();
-                    }
-                    try {
-
-                        Log.e("Server", "receive");
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                        String msg = reader.readLine();
-                        activity.update(false, msg);
-
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
