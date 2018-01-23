@@ -157,16 +157,13 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
 
     public void update(String datas) {
         String[] data = datas.split(";");
-        Log.e("T", data[0]+isClient);
         switch(data[0]) {
             case "start":
-                if(isClient) {
-                    isStarted = true;
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.frame_container, new GameFragment());
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container, new GameFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                isStarted = true;
                 break;
             case "move":
                 if(!(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof GameFragment)) {
