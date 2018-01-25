@@ -157,6 +157,7 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
 
     public void update(String datas) {
         String[] data = datas.split(";");
+        Log.e("te", data[0]);
         switch(data[0]) {
             case "start":
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -167,6 +168,7 @@ public class MainActivity extends FragmentActivity implements WifiP2pManager.Con
                 break;
             case "move":
                 if(!(getSupportFragmentManager().findFragmentById(R.id.frame_container) instanceof GameFragment)) {
+                    Log.e("Main", "ERROR gamefragment");
                     return;
                 }
                 GameFragment frag = (GameFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);

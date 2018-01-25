@@ -159,9 +159,9 @@ public class GameFragment extends Fragment implements SensorEventListener {
 
         MainActivity activity = (MainActivity)getActivity();
         if(activity.isClient()) {
-            controller.movePlayerX(-pitch);
+            controller.setAccelerationPlayerX(-pitch);
         } else {
-            controller.movePlayerY(-roll);
+            controller.setAccelerationPlayerY(-roll);
         }
     }
 

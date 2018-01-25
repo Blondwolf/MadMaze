@@ -159,12 +159,20 @@ public class GameController {
         world.getBallPlayer().setPlayerAcceleration(x, y);
     }
 
-    public void movePlayerX(float x) {
+    public void setAccelerationPlayerX(float x) {
         world.getBallPlayer().setPlayerXAcceleration(x);
     }
 
-    public void movePlayerY(float y) {
+    public void setAccelerationPlayerY(float y) {
         world.getBallPlayer().setPlayerYAcceleration(y);
+    }
+
+    public void movePlayerX(float x) {
+        world.getBallPlayer().getPosition().x = x;
+    }
+
+    public void movePlayerY(float y) {
+        world.getBallPlayer().getPosition().y = y;
     }
 
     //Update in case screen change like reverse the phone. Normally not but it's used in init
