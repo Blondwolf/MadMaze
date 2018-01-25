@@ -31,6 +31,7 @@ public class ChooseLevelFragment extends Fragment {
     private Button btnBackToMenu;
     private Button btnSelect;
     private Button btnRandom;
+    private int worldID = 0;
     //endregion ATTRIBUTES
 
     public ChooseLevelFragment() {
@@ -79,15 +80,9 @@ public class ChooseLevelFragment extends Fragment {
                 //https://stackoverflow.com/questions/23250707/how-to-pass-a-value-from-one-fragment-to-another-in-android
                 //go to GAME FRAGMENT passing the world value
                 IOTools.writePosition(getActivity().getApplicationContext(), position);
-                GameFragment gf = new GameFragment();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                Bundle args = new Bundle();
-                args.putInt("worldID", position);
-                gf.setArguments(args);
-                Log.wtf(TAG, "onClick: OK - redirect to game fragment " + args.getInt("worldID"));
-                ft.replace(R.id.frame_container, gf);
-                ft.commit();
+
+                Log.wtf(TAG, "onClick: OK - redirect to game fragment " + position);
+                worldID = position;
             }
 
             @Override
@@ -100,7 +95,7 @@ public class ChooseLevelFragment extends Fragment {
 
         //region BUTTONS
         btnBackToMenu = (Button) view.findViewById(R.id.btn_chlvl_backToMenu);
-        //btnSelect = (Button) view.findViewById(R.id.btn_chlvl_select);
+        btnSelect = (Button) view.findViewById(R.id.btn_chlvl_select);
         btnRandom = (Button) view.findViewById(R.id.btn_chlvl_random);
         //endregion BUTTONS
 
@@ -120,18 +115,23 @@ public class ChooseLevelFragment extends Fragment {
             }
         });
 
-        /*btnSelect.setOnClickListener(new View.OnClickListener(){
+        btnSelect.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view){
                 Log.wtf(TAG, "onClick: SELECT LEVEL");
 
-                /*FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Bundle args = new Bundle();
+                args.putInt("worldID", worldID);
 
-                CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_select_level)
-                        .show(fm, TAG);
+                GameFragment gf = new GameFragment();
+                gf.setArguments(args);
+                ft.replace(R.id.frame_container, gf);
+                ft.commit();
             }
-        });*/
+        });
 
         btnRandom.setOnClickListener(new View.OnClickListener(){
 
@@ -146,7 +146,9 @@ public class ChooseLevelFragment extends Fragment {
                 FragmentTransaction ft = fm.beginTransaction();
                 Bundle args = new Bundle();
                 int max = 3; int min = 1;
-                args.putInt("worldID", new Random().nextInt(max - min + 1) + min);
+                Random r = new Random();
+                r.setSeed(System.currentTimeMillis());
+                args.putInt("worldID", r.nextInt(max) + 1);
                 gf.setArguments(args);
                 Log.wtf(TAG, "onClick: OK - redirect to game fragment " + args.getInt("worldID"));
                 ft.replace(R.id.frame_container, gf);

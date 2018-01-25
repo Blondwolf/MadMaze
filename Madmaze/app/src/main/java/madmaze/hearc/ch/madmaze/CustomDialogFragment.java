@@ -47,7 +47,7 @@ public class CustomDialogFragment extends DialogFragment {
             case REDIRECT_TO_NEW_FRAGMENT:
                 //region A
                 return new AlertDialog.Builder(getActivity())
-                        .setTitle(destinationA)
+                        .setTitle("")
                         .setMessage(message)
                         .setPositiveButton(R.string.alert_dialog_ok,
                                 new DialogInterface.OnClickListener() {
@@ -76,7 +76,7 @@ public class CustomDialogFragment extends DialogFragment {
             case REDIRECT_TO_TWO_FRAGMENTS:
                 //region B
                 return new AlertDialog.Builder(getActivity())
-                        .setTitle(destinationA+ " or "+ destinationB)
+                        .setTitle("")
                         .setMessage(message)
                         .setPositiveButton("Yes",
                                 new DialogInterface.OnClickListener() {
@@ -108,7 +108,7 @@ public class CustomDialogFragment extends DialogFragment {
             case SIMPLE_MESSAGE:
                 //region C
                 return new AlertDialog.Builder(getActivity())
-                        .setTitle(destinationA)
+                        .setTitle("")
                         .setMessage(message)
                         .setNeutralButton(R.string.alert_dialog_ok,
                                 new DialogInterface.OnClickListener() {
@@ -123,7 +123,7 @@ public class CustomDialogFragment extends DialogFragment {
             case QUIT:
                 //region D
                 return new AlertDialog.Builder(getActivity())
-                        .setTitle(destinationA)
+                        .setTitle("")
                         .setMessage(message)
                         .setPositiveButton(R.string.alert_dialog_ok,
                                 new DialogInterface.OnClickListener() {
