@@ -53,7 +53,7 @@ public class ServerListFragment extends Fragment implements WifiP2pManager.PeerL
             channel = mainActivity.getChannel();
             DiscoverPeers();
         } else {
-            Log.wtf(TAG, "onClick: FUCK");
+            Log.wtf(TAG, "onClick: BOH");
             //Toast.makeText(getActivity(), "Error activity!", Toast.LENGTH_LONG).show();
         }
     }
