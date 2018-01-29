@@ -31,7 +31,7 @@ public class ChooseLevelFragment extends Fragment {
     private Button btnBackToMenu;
     private Button btnSelect;
     private Button btnRandom;
-    private int worldID = 0;
+    private int worldID = 1;
     //endregion ATTRIBUTES
 
     public ChooseLevelFragment() {
@@ -68,6 +68,8 @@ public class ChooseLevelFragment extends Fragment {
         CarouselPicker.CarouselViewAdapter adapter = new CarouselPicker.CarouselViewAdapter(view.getContext(), imageItems, 0);
         carouselPicker.setAdapter(adapter);
 
+        IOTools.writePosition(getActivity().getApplicationContext(), 1);
+
         carouselPicker.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -79,10 +81,10 @@ public class ChooseLevelFragment extends Fragment {
                 //position of the selected item
                 //https://stackoverflow.com/questions/23250707/how-to-pass-a-value-from-one-fragment-to-another-in-android
                 //go to GAME FRAGMENT passing the world value
-                IOTools.writePosition(getActivity().getApplicationContext(), position);
+                IOTools.writePosition(getActivity().getApplicationContext(), position+1);
 
-                Log.wtf(TAG, "onClick: OK - redirect to game fragment " + position);
-                worldID = position;
+                Log.wtf(TAG, "onClick: OK - redirect to game fragment " + position+1);
+                worldID = position+1;
             }
 
             @Override
@@ -145,7 +147,7 @@ public class ChooseLevelFragment extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 Bundle args = new Bundle();
-                int max = 3; int min = 1;
+                int max = 3;
                 Random r = new Random();
                 r.setSeed(System.currentTimeMillis());
                 args.putInt("worldID", r.nextInt(max) + 1);

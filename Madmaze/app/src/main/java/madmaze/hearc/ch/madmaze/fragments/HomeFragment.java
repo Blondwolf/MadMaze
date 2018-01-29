@@ -68,9 +68,6 @@ public class HomeFragment extends Fragment {
 
                 CustomDialogFragment.newInstance(FragmentType.CHOOSE_LEVEL_FRAGMENT, FragmentType.SERVER_LIST_FRAGMENT, MessageType.REDIRECT_TO_TWO_FRAGMENTS, R.string.alert_dialog_start_host_or_not)
                         .show(fm, TAG);
-
-                /*CustomDialogFragment.newInstance(FragmentType.GAME_FRAGMENT, FragmentType.NONE, MessageType.REDIRECT_TO_NEW_FRAGMENT, R.string.alert_dialog_start_host_or_not)
-                        .show(fm, TAG);*/
             }
         });
 
